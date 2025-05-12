@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exchange_rates",
+  "info": {
+    "singularName": "exchange-rate",
+    "pluralName": "exchange-rates",
+    "displayName": "Exchange Rate",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "from_currency": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::currency.currency",
+      "inversedBy": "exchange_rates"
+    },
+    "to_currency": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::currency.currency",
+      "inversedBy": "exchange_rates"
+    },
+    "rate": {
+      "type": "decimal",
+      "required": true,
+      "column": {
+        "type": "decimal",
+        "args": [
+          20,
+          10
+        ]
+      }
+    }
+  }
+}

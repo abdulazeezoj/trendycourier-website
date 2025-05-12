@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "currencies",
+  "info": {
+    "singularName": "currency",
+    "pluralName": "currencies",
+    "displayName": "Currency"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "code": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 3,
+      "required": true,
+      "unique": true
+    },
+    "exchange_rates": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::exchange-rate.exchange-rate",
+      "mappedBy": "to_currency"
+    },
+    "shipping_destinations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipping-destination.shipping-destination",
+      "mappedBy": "currency"
+    }
+  }
+}

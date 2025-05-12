@@ -440,6 +440,7 @@ export interface ApiExchangeRateExchangeRate
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    rate: Schema.Attribute.Decimal & Schema.Attribute.Required;
     to_currency: Schema.Attribute.Relation<
       'manyToOne',
       'api::currency.currency'
@@ -961,6 +962,9 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::currency.currency': ApiCurrencyCurrency;
       'api::exchange-rate.exchange-rate': ApiExchangeRateExchangeRate;
+      'api::freight-rate.freight-rate': ApiFreightRateFreightRate;
+      'api::shipping-destination.shipping-destination': ApiShippingDestinationShippingDestination;
+      'api::shipping-method.shipping-method': ApiShippingMethodShippingMethod;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
