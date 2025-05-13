@@ -33,6 +33,12 @@
       "relation": "oneToMany",
       "target": "api::shipping-destination.shipping-destination",
       "mappedBy": "currency"
+    },
+    "freight_rates": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::freight-rate.freight-rate",
+      "mappedBy": "currency"
     }
   }
 }

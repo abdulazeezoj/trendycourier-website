@@ -398,6 +398,10 @@ export interface ApiCurrencyCurrency extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::exchange-rate.exchange-rate'
     >;
+    freight_rates: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::freight-rate.freight-rate'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -408,6 +412,10 @@ export interface ApiCurrencyCurrency extends Struct.CollectionTypeSchema {
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
+    shipping_destinations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::shipping-destination.shipping-destination'
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -418,7 +426,8 @@ export interface ApiExchangeRateExchangeRate
   extends Struct.CollectionTypeSchema {
   collectionName: 'exchange_rates';
   info: {
-    displayName: 'Exchange Rate';
+    description: '';
+    displayName: 'ExchangeRate';
     pluralName: 'exchange-rates';
     singularName: 'exchange-rate';
   };
@@ -445,6 +454,213 @@ export interface ApiExchangeRateExchangeRate
       'manyToOne',
       'api::currency.currency'
     >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiFreightRateFreightRate extends Struct.CollectionTypeSchema {
+  collectionName: 'freight_rates';
+  info: {
+    description: '';
+    displayName: 'FreightRate';
+    pluralName: 'freight-rates';
+    singularName: 'freight-rate';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    active: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    clearing_fee: Schema.Attribute.Decimal;
+    comment: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currency: Schema.Attribute.Relation<'manyToOne', 'api::currency.currency'>;
+    effective_from: Schema.Attribute.Date;
+    estimated_days: Schema.Attribute.Integer;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::freight-rate.freight-rate'
+    > &
+      Schema.Attribute.Private;
+    per_unit: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
+    publishedAt: Schema.Attribute.DateTime;
+    shipping_destination: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-destination.shipping-destination'
+    >;
+    shipping_fee: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    shipping_method: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-method.shipping-method'
+    >;
+    shipping_origin: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-origin.shipping-origin'
+    >;
+    shipping_size: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-size.shipping-size'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiShippingDestinationShippingDestination
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'shipping_destinations';
+  info: {
+    description: '';
+    displayName: 'ShippingDestination';
+    pluralName: 'shipping-destinations';
+    singularName: 'shipping-destination';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    city: Schema.Attribute.String & Schema.Attribute.Required;
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    country: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    currency: Schema.Attribute.Relation<'manyToOne', 'api::currency.currency'>;
+    freight_rates: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::freight-rate.freight-rate'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::shipping-destination.shipping-destination'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiShippingMethodShippingMethod
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'shipping_methods';
+  info: {
+    description: '';
+    displayName: 'ShippingMethod';
+    pluralName: 'shipping-methods';
+    singularName: 'shipping-method';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    code: Schema.Attribute.UID<'name'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    freight_rates: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::freight-rate.freight-rate'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::shipping-method.shipping-method'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiShippingOriginShippingOrigin
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'shipping_origins';
+  info: {
+    description: '';
+    displayName: 'ShippingOrigin';
+    pluralName: 'shipping-origins';
+    singularName: 'shipping-origin';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    city: Schema.Attribute.String & Schema.Attribute.Required;
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    country: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    freight_rates: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::freight-rate.freight-rate'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::shipping-origin.shipping-origin'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiShippingSizeShippingSize
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'shipping_sizes';
+  info: {
+    displayName: 'ShippingSize';
+    pluralName: 'shipping-sizes';
+    singularName: 'shipping-size';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    code: Schema.Attribute.String & Schema.Attribute.Required;
+    comment: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    freight_rates: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::freight-rate.freight-rate'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::shipping-size.shipping-size'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    unit: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -965,6 +1181,8 @@ declare module '@strapi/strapi' {
       'api::freight-rate.freight-rate': ApiFreightRateFreightRate;
       'api::shipping-destination.shipping-destination': ApiShippingDestinationShippingDestination;
       'api::shipping-method.shipping-method': ApiShippingMethodShippingMethod;
+      'api::shipping-origin.shipping-origin': ApiShippingOriginShippingOrigin;
+      'api::shipping-size.shipping-size': ApiShippingSizeShippingSize;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

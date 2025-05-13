@@ -1,0 +1,71 @@
+{
+  "kind": "collectionType",
+  "collectionName": "freight_rates",
+  "info": {
+    "singularName": "freight-rate",
+    "pluralName": "freight-rates",
+    "displayName": "FreightRate",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "shipping_origin": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-origin.shipping-origin",
+      "inversedBy": "freight_rates"
+    },
+    "shipping_destination": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-destination.shipping-destination",
+      "inversedBy": "freight_rates"
+    },
+    "shipping_method": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-method.shipping-method",
+      "inversedBy": "freight_rates"
+    },
+    "shipping_size": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-size.shipping-size",
+      "inversedBy": "freight_rates"
+    },
+    "shipping_fee": {
+      "type": "decimal",
+      "required": true
+    },
+    "clearing_fee": {
+      "type": "decimal"
+    },
+    "per_unit": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "estimated_days": {
+      "type": "integer"
+    },
+    "active": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "comment": {
+      "type": "text"
+    },
+    "effective_from": {
+      "type": "date"
+    },
+    "currency": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::currency.currency",
+      "inversedBy": "freight_rates"
+    }
+  }
+}
