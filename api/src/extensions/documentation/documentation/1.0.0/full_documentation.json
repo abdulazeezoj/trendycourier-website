@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-05-19T08:42:10.661Z"
+    "x-generation-date": "2025-05-19T09:16:40.177Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -6618,6 +6618,36 @@
         },
         "tags": [
           "Exchange-rate"
+        ]
+      }
+    },
+    "/shipments/track": {
+      "get": {
+        "operationId": "get/shipments/track",
+        "summary": "Track shipment",
+        "description": "",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "description": "Shipment tracking code.",
+            "deprecated": false,
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "tags": [
+          "Shipment"
         ]
       }
     }

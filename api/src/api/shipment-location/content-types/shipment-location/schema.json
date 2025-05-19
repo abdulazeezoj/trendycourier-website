@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipment_locations",
+  "info": {
+    "singularName": "shipment-location",
+    "pluralName": "shipment-locations",
+    "displayName": "ShipmentLocation"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "country": {
+      "type": "string",
+      "required": true
+    },
+    "notes": {
+      "type": "text"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "port",
+        "warehouse",
+        "office",
+        "border"
+      ]
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "shipment_location"
+    },
+    "shipment_events": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment-event.shipment-event",
+      "mappedBy": "shipment_location"
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipments",
+  "info": {
+    "singularName": "shipment",
+    "pluralName": "shipments",
+    "displayName": "Shipment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "tracking_code": {
+      "type": "uid",
+      "required": false
+    },
+    "receiver_name": {
+      "type": "string",
+      "required": true
+    },
+    "receiver_phone": {
+      "type": "string",
+      "required": true
+    },
+    "receiver_email": {
+      "type": "string",
+      "required": false
+    },
+    "shipping_origin": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-origin.shipping-origin",
+      "inversedBy": "shipments"
+    },
+    "shipping_destination": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-destination.shipping-destination",
+      "inversedBy": "shipments"
+    },
+    "shipping_method": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-method.shipping-method",
+      "inversedBy": "shipments"
+    },
+    "shipping_freight_rate": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::freight-rate.freight-rate",
+      "inversedBy": "shipments"
+    },
+    "shipping_size_value": {
+      "type": "decimal"
+    },
+    "shipment_status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "ready-for-pickup",
+        "in-transit",
+        "arrived",
+        "cleared",
+        "delivered",
+        "cancelled"
+      ],
+      "default": "pending",
+      "required": true
+    },
+    "shipment_location": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipment-location.shipment-location",
+      "inversedBy": "shipments"
+    },
+    "shipment_note": {
+      "type": "text"
+    },
+    "shipment_events": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment-event.shipment-event",
+      "mappedBy": "shipment"
+    },
+    "shipping_size": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipping-size.shipping-size",
+      "inversedBy": "shipments"
+    },
+    "delivered_at": {
+      "type": "datetime"
+    }
+  }
+}

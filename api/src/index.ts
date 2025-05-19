@@ -1,6 +1,7 @@
 import type { Core } from "@strapi/strapi";
-import { exchangeRateDocs } from "./api/exchange-rate/routes/custom-exchange-rate";
-import { freightRateDocs } from "./api/freight-rate/routes/custom-freight-rate";
+import { exchangeRateDocs } from "./api/exchange-rate/routes/01-custom";
+import { freightRateDocs } from "./api/freight-rate/routes/01-custom";
+import { shipmentDocs } from "./api/shipment/routes/01-custom";
 
 export default {
   /**
@@ -10,15 +11,35 @@ export default {
    * This gives you an opportunity to extend code.
    */
   register({ strapi }: { strapi: Core.Strapi }) {
-    strapi
-      .plugin("documentation")
-      .service("override")
-      .registerOverride({
-        paths: {
-          ...freightRateDocs.paths,
-          ...exchangeRateDocs.paths,
-        },
-      });
+    if (strapi.plugin("documentation")) {
+      // Register custom routes for documentation
+      strapi
+        .plugin("documentation")
+        .service("override")
+        .registerOverride({
+          paths: {
+            ...freightRateDocs.paths,
+          },
+        });
+
+      strapi
+        .plugin("documentation")
+        .service("override")
+        .registerOverride({
+          paths: {
+            ...exchangeRateDocs.paths,
+          },
+        });
+
+      strapi
+        .plugin("documentation")
+        .service("override")
+        .registerOverride({
+          paths: {
+            ...shipmentDocs.paths,
+          },
+        });
+    }
   },
 
   /**

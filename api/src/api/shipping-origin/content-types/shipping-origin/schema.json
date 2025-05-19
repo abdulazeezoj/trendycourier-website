@@ -29,6 +29,12 @@
       "relation": "oneToMany",
       "target": "api::freight-rate.freight-rate",
       "mappedBy": "shipping_origin"
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "shipping_origin"
     }
   }
 }

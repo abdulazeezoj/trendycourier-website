@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipment_events",
+  "info": {
+    "singularName": "shipment-event",
+    "pluralName": "shipment-events",
+    "displayName": "ShipmentEvent",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "shipment": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipment.shipment",
+      "inversedBy": "shipment_events"
+    },
+    "shipment_status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "in-transit",
+        "delivered",
+        "cleared"
+      ],
+      "required": true,
+      "default": "pending"
+    },
+    "message": {
+      "type": "text",
+      "required": true
+    },
+    "shipment_location": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipment-location.shipment-location",
+      "inversedBy": "shipment_events"
+    }
+  }
+}

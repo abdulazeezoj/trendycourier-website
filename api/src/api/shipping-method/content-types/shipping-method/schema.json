@@ -25,6 +25,12 @@
     "code": {
       "type": "uid",
       "targetField": "name"
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "shipping_method"
     }
   }
 }
