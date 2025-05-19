@@ -1,4 +1,6 @@
-// import type { Core } from '@strapi/strapi';
+import type { Core } from "@strapi/strapi";
+import { exchangeRateDocs } from "./api/exchange-rate/routes/custom-exchange-rate";
+import { freightRateDocs } from "./api/freight-rate/routes/custom-freight-rate";
 
 export default {
   /**
@@ -7,7 +9,17 @@ export default {
    *
    * This gives you an opportunity to extend code.
    */
-  register(/* { strapi }: { strapi: Core.Strapi } */) {},
+  register({ strapi }: { strapi: Core.Strapi }) {
+    strapi
+      .plugin("documentation")
+      .service("override")
+      .registerOverride({
+        paths: {
+          ...freightRateDocs.paths,
+          ...exchangeRateDocs.paths,
+        },
+      });
+  },
 
   /**
    * An asynchronous bootstrap function that runs before

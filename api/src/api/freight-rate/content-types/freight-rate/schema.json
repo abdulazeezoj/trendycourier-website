@@ -66,6 +66,16 @@
       "relation": "manyToOne",
       "target": "api::currency.currency",
       "inversedBy": "freight_rates"
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "shipping_freight_rate"
+    },
+    "name": {
+      "type": "string",
+      "required": true
     }
   }
 }
