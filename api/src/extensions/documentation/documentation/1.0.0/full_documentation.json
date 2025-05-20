@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-05-19T09:16:40.177Z"
+    "x-generation-date": "2025-05-20T09:51:01.938Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -6562,7 +6562,221 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "origin": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "city": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "city",
+                        "country"
+                      ]
+                    },
+                    "destination": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "city": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "city",
+                        "country"
+                      ]
+                    },
+                    "freight": {
+                      "type": "object",
+                      "properties": {
+                        "method": {
+                          "type": "object",
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "code",
+                            "name"
+                          ]
+                        },
+                        "size": {
+                          "type": "object",
+                          "properties": {
+                            "code": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "unit": {
+                              "type": "string"
+                            },
+                            "description": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "code",
+                            "name",
+                            "unit"
+                          ]
+                        },
+                        "base_currency": {
+                          "type": "string"
+                        },
+                        "destination_currency": {
+                          "type": "string"
+                        },
+                        "exchange_rate": {
+                          "type": "number"
+                        },
+                        "shipping_fee": {
+                          "type": "number"
+                        },
+                        "clearing_fee": {
+                          "type": "number"
+                        },
+                        "estimated_days": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "method",
+                        "size",
+                        "base_currency",
+                        "destination_currency",
+                        "exchange_rate",
+                        "shipping_fee",
+                        "clearing_fee",
+                        "estimated_days"
+                      ]
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "fee": {
+                      "type": "object",
+                      "properties": {
+                        "shipping_fee": {
+                          "type": "number"
+                        },
+                        "clearing_fee": {
+                          "type": "number"
+                        },
+                        "total_fee": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "shipping_fee",
+                        "clearing_fee",
+                        "total_fee"
+                      ]
+                    },
+                    "fee_converted": {
+                      "type": "object",
+                      "properties": {
+                        "shipping_fee": {
+                          "type": "number"
+                        },
+                        "clearing_fee": {
+                          "type": "number"
+                        },
+                        "total_fee": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "shipping_fee",
+                        "clearing_fee",
+                        "total_fee"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "origin",
+                    "destination",
+                    "freight",
+                    "value",
+                    "fee",
+                    "fee_converted"
+                  ]
+                },
+                "example": {
+                  "origin": {
+                    "code": "hong-kong-cn",
+                    "city": "Hong Kong",
+                    "country": "China"
+                  },
+                  "destination": {
+                    "code": "logos-ng",
+                    "city": "Lagos",
+                    "country": "Nigeria"
+                  },
+                  "freight": {
+                    "method": {
+                      "code": "air",
+                      "name": "Air"
+                    },
+                    "size": {
+                      "code": "weight",
+                      "name": "Weight",
+                      "unit": "kg",
+                      "description": ""
+                    },
+                    "base_currency": "USD",
+                    "destination_currency": "NGN",
+                    "exchange_rate": 1500,
+                    "shipping_fee": 3,
+                    "clearing_fee": 0.5,
+                    "estimated_days": 7
+                  },
+                  "value": "10",
+                  "fee": {
+                    "shipping_fee": 30,
+                    "clearing_fee": 5,
+                    "total_fee": 35
+                  },
+                  "fee_converted": {
+                    "shipping_fee": 45000,
+                    "clearing_fee": 7500,
+                    "total_fee": 52500
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -6612,7 +6826,102 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "from": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "code"
+                      ]
+                    },
+                    "to": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "code"
+                      ]
+                    },
+                    "rate": {
+                      "type": "number"
+                    },
+                    "amount": {
+                      "type": "number"
+                    },
+                    "converted": {
+                      "type": "object",
+                      "properties": {
+                        "round": {
+                          "type": "number"
+                        },
+                        "full": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "round",
+                        "full"
+                      ]
+                    },
+                    "inverted": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "from",
+                    "to",
+                    "rate",
+                    "amount",
+                    "converted",
+                    "inverted"
+                  ]
+                },
+                "example": {
+                  "from": {
+                    "name": "Nigerian Naira",
+                    "code": "NGN"
+                  },
+                  "to": {
+                    "name": "US Dollar",
+                    "code": "USD"
+                  },
+                  "rate": 0.123,
+                  "amount": 100,
+                  "converted": {
+                    "round": 12.3,
+                    "full": 12.315
+                  },
+                  "inverted": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -6642,7 +6951,266 @@
           "200": {
             "description": "OK",
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "tracking_code": {
+                      "type": "string"
+                    },
+                    "shipping_origin": {
+                      "type": "object",
+                      "properties": {
+                        "city": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "city",
+                        "country"
+                      ]
+                    },
+                    "shipping_destination": {
+                      "type": "object",
+                      "properties": {
+                        "city": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "city",
+                        "country"
+                      ]
+                    },
+                    "shipment_status": {
+                      "type": "string"
+                    },
+                    "receiver_address": {
+                      "type": "string"
+                    },
+                    "receiver_city": {
+                      "type": "string"
+                    },
+                    "receiver_country": {
+                      "type": "string"
+                    },
+                    "receiver_name": {
+                      "type": "string"
+                    },
+                    "receiver_phone": {
+                      "type": "string"
+                    },
+                    "receiver_email": {
+                      "type": "string"
+                    },
+                    "is_pickup": {
+                      "type": "boolean"
+                    },
+                    "pickup_center": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "city": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "city",
+                        "country",
+                        "type"
+                      ]
+                    },
+                    "current_location": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "city": {
+                          "type": "string"
+                        },
+                        "country": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "city",
+                        "country",
+                        "type"
+                      ]
+                    },
+                    "events": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "shipment_status": {
+                            "type": "string"
+                          },
+                          "shipment_location": {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "city": {
+                                "type": "string"
+                              },
+                              "country": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "city",
+                              "country",
+                              "type"
+                            ]
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        },
+                        "required": [
+                          "shipment_status",
+                          "shipment_location",
+                          "message",
+                          "timestamp"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "tracking_code",
+                    "shipping_origin",
+                    "shipping_destination",
+                    "shipment_status",
+                    "receiver_address",
+                    "receiver_city",
+                    "receiver_country",
+                    "receiver_name",
+                    "receiver_phone",
+                    "receiver_email",
+                    "is_pickup",
+                    "pickup_center",
+                    "current_location",
+                    "events"
+                  ]
+                },
+                "example": {
+                  "tracking_code": "TRK123456789",
+                  "shipping_origin": {
+                    "city": "Lagos",
+                    "country": "Nigeria"
+                  },
+                  "shipping_destination": {
+                    "city": "London",
+                    "country": "United Kingdom"
+                  },
+                  "shipment_status": "In Transit",
+                  "receiver_address": "123 Oxford Street",
+                  "receiver_city": "London",
+                  "receiver_country": "United Kingdom",
+                  "receiver_name": "John Doe",
+                  "receiver_phone": "+44 1234 567890",
+                  "receiver_email": "john.doe@example.com",
+                  "is_pickup": false,
+                  "pickup_center": {
+                    "name": "Main Depot",
+                    "city": "London",
+                    "country": "United Kingdom",
+                    "type": "delivery"
+                  },
+                  "current_location": {
+                    "name": "Heathrow Airport",
+                    "city": "London",
+                    "country": "United Kingdom",
+                    "type": "port"
+                  },
+                  "events": [
+                    {
+                      "shipment_status": "in-transit",
+                      "shipment_location": {
+                        "name": "Heathrow Airport",
+                        "city": "London",
+                        "country": "United Kingdom",
+                        "type": "port"
+                      },
+                      "message": "Shipment arrived at Heathrow Airport.",
+                      "timestamp": "2024-06-01T23:40:00Z"
+                    },
+                    {
+                      "shipment_status": "in-transit",
+                      "shipment_location": {
+                        "name": "Lagos Airport",
+                        "city": "Lagos",
+                        "country": "Nigeria",
+                        "type": "port"
+                      },
+                      "message": "Shipment departed from Lagos Airport.",
+                      "timestamp": "2024-06-01T20:00:00Z"
+                    },
+                    {
+                      "shipment_status": "in-transit",
+                      "shipment_location": {
+                        "name": "Lagos Airport",
+                        "city": "Lagos",
+                        "country": "Nigeria",
+                        "type": "port"
+                      },
+                      "message": "Shipment arrived at Lagos Airport.",
+                      "timestamp": "2024-06-01T15:30:00Z"
+                    },
+                    {
+                      "shipment_status": "processing",
+                      "shipment_location": {
+                        "name": "Ikeja Hub",
+                        "city": "Lagos",
+                        "country": "Nigeria",
+                        "type": "warehouse"
+                      },
+                      "message": "Preparing shipment for delivery.",
+                      "timestamp": "2024-06-01T08:00:00Z"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         },
@@ -6958,16 +7526,10 @@
                                           "documentId": {
                                             "type": "string"
                                           },
-                                          "tracking_code": {
-                                            "type": "string"
-                                          },
                                           "receiver_name": {
                                             "type": "string"
                                           },
                                           "receiver_phone": {
-                                            "type": "string"
-                                          },
-                                          "receiver_email": {
                                             "type": "string"
                                           },
                                           "shipping_origin": {
@@ -7394,10 +7956,11 @@
                                               "type": {
                                                 "type": "string",
                                                 "enum": [
+                                                  "border",
                                                   "port",
                                                   "warehouse",
                                                   "office",
-                                                  "border"
+                                                  "delivery"
                                                 ]
                                               },
                                               "shipments": {
@@ -7509,6 +8072,20 @@
                                                           }
                                                         }
                                                       }
+                                                    }
+                                                  }
+                                                }
+                                              },
+                                              "shipment_pickup_centers": {
+                                                "type": "array",
+                                                "items": {
+                                                  "type": "object",
+                                                  "properties": {
+                                                    "id": {
+                                                      "type": "number"
+                                                    },
+                                                    "documentId": {
+                                                      "type": "string"
                                                     }
                                                   }
                                                 }
@@ -7691,6 +8268,36 @@
                                           "delivered_at": {
                                             "type": "string",
                                             "format": "date-time"
+                                          },
+                                          "receiver_email": {
+                                            "type": "string",
+                                            "format": "email"
+                                          },
+                                          "receiver_city": {
+                                            "type": "string"
+                                          },
+                                          "receiver_country": {
+                                            "type": "string"
+                                          },
+                                          "receiver_address": {
+                                            "type": "string"
+                                          },
+                                          "pickup_center": {
+                                            "type": "object",
+                                            "properties": {
+                                              "id": {
+                                                "type": "number"
+                                              },
+                                              "documentId": {
+                                                "type": "string"
+                                              }
+                                            }
+                                          },
+                                          "is_pickup": {
+                                            "type": "boolean"
+                                          },
+                                          "tracking_code": {
+                                            "type": "string"
                                           },
                                           "createdAt": {
                                             "type": "string",
@@ -8783,16 +9390,10 @@
                                     "documentId": {
                                       "type": "string"
                                     },
-                                    "tracking_code": {
-                                      "type": "string"
-                                    },
                                     "receiver_name": {
                                       "type": "string"
                                     },
                                     "receiver_phone": {
-                                      "type": "string"
-                                    },
-                                    "receiver_email": {
                                       "type": "string"
                                     },
                                     "shipping_origin": {
@@ -8967,10 +9568,11 @@
                                         "type": {
                                           "type": "string",
                                           "enum": [
+                                            "border",
                                             "port",
                                             "warehouse",
                                             "office",
-                                            "border"
+                                            "delivery"
                                           ]
                                         },
                                         "shipments": {
@@ -9082,6 +9684,20 @@
                                                     }
                                                   }
                                                 }
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "shipment_pickup_centers": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "id": {
+                                                "type": "number"
+                                              },
+                                              "documentId": {
+                                                "type": "string"
                                               }
                                             }
                                           }
@@ -9264,6 +9880,36 @@
                                     "delivered_at": {
                                       "type": "string",
                                       "format": "date-time"
+                                    },
+                                    "receiver_email": {
+                                      "type": "string",
+                                      "format": "email"
+                                    },
+                                    "receiver_city": {
+                                      "type": "string"
+                                    },
+                                    "receiver_country": {
+                                      "type": "string"
+                                    },
+                                    "receiver_address": {
+                                      "type": "string"
+                                    },
+                                    "pickup_center": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "documentId": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    },
+                                    "is_pickup": {
+                                      "type": "boolean"
+                                    },
+                                    "tracking_code": {
+                                      "type": "string"
                                     },
                                     "createdAt": {
                                       "type": "string",
@@ -10432,16 +11078,10 @@
                               "documentId": {
                                 "type": "string"
                               },
-                              "tracking_code": {
-                                "type": "string"
-                              },
                               "receiver_name": {
                                 "type": "string"
                               },
                               "receiver_phone": {
-                                "type": "string"
-                              },
-                              "receiver_email": {
                                 "type": "string"
                               },
                               "shipping_origin": {
@@ -10616,10 +11256,11 @@
                                   "type": {
                                     "type": "string",
                                     "enum": [
+                                      "border",
                                       "port",
                                       "warehouse",
                                       "office",
-                                      "border"
+                                      "delivery"
                                     ]
                                   },
                                   "shipments": {
@@ -10731,6 +11372,20 @@
                                               }
                                             }
                                           }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "shipment_pickup_centers": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "documentId": {
+                                          "type": "string"
                                         }
                                       }
                                     }
@@ -10913,6 +11568,36 @@
                               "delivered_at": {
                                 "type": "string",
                                 "format": "date-time"
+                              },
+                              "receiver_email": {
+                                "type": "string",
+                                "format": "email"
+                              },
+                              "receiver_city": {
+                                "type": "string"
+                              },
+                              "receiver_country": {
+                                "type": "string"
+                              },
+                              "receiver_address": {
+                                "type": "string"
+                              },
+                              "pickup_center": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "documentId": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "is_pickup": {
+                                "type": "boolean"
+                              },
+                              "tracking_code": {
+                                "type": "string"
                               },
                               "createdAt": {
                                 "type": "string",
@@ -11375,20 +12060,15 @@
             "required": [
               "receiver_name",
               "receiver_phone",
-              "shipment_status"
+              "shipment_status",
+              "is_pickup"
             ],
             "type": "object",
             "properties": {
-              "tracking_code": {
-                "type": "string"
-              },
               "receiver_name": {
                 "type": "string"
               },
               "receiver_phone": {
-                "type": "string"
-              },
-              "receiver_email": {
                 "type": "string"
               },
               "shipping_origin": {
@@ -11494,6 +12174,36 @@
                 "type": "string",
                 "format": "date-time"
               },
+              "receiver_email": {
+                "type": "string",
+                "format": "email"
+              },
+              "receiver_city": {
+                "type": "string"
+              },
+              "receiver_country": {
+                "type": "string"
+              },
+              "receiver_address": {
+                "type": "string"
+              },
+              "pickup_center": {
+                "oneOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "example": "string or id"
+              },
+              "is_pickup": {
+                "type": "boolean"
+              },
+              "tracking_code": {
+                "type": "string"
+              },
               "locale": {
                 "type": "string"
               },
@@ -11555,7 +12265,8 @@
         "required": [
           "receiver_name",
           "receiver_phone",
-          "shipment_status"
+          "shipment_status",
+          "is_pickup"
         ],
         "properties": {
           "id": {
@@ -11564,16 +12275,10 @@
           "documentId": {
             "type": "string"
           },
-          "tracking_code": {
-            "type": "string"
-          },
           "receiver_name": {
             "type": "string"
           },
           "receiver_phone": {
-            "type": "string"
-          },
-          "receiver_email": {
             "type": "string"
           },
           "shipping_origin": {
@@ -12098,16 +12803,10 @@
                               "documentId": {
                                 "type": "string"
                               },
-                              "tracking_code": {
-                                "type": "string"
-                              },
                               "receiver_name": {
                                 "type": "string"
                               },
                               "receiver_phone": {
-                                "type": "string"
-                              },
-                              "receiver_email": {
                                 "type": "string"
                               },
                               "shipping_origin": {
@@ -12282,10 +12981,11 @@
                                   "type": {
                                     "type": "string",
                                     "enum": [
+                                      "border",
                                       "port",
                                       "warehouse",
                                       "office",
-                                      "border"
+                                      "delivery"
                                     ]
                                   },
                                   "shipments": {
@@ -12397,6 +13097,20 @@
                                               }
                                             }
                                           }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "shipment_pickup_centers": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "documentId": {
+                                          "type": "string"
                                         }
                                       }
                                     }
@@ -12579,6 +13293,36 @@
                               "delivered_at": {
                                 "type": "string",
                                 "format": "date-time"
+                              },
+                              "receiver_email": {
+                                "type": "string",
+                                "format": "email"
+                              },
+                              "receiver_city": {
+                                "type": "string"
+                              },
+                              "receiver_country": {
+                                "type": "string"
+                              },
+                              "receiver_address": {
+                                "type": "string"
+                              },
+                              "pickup_center": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "documentId": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "is_pickup": {
+                                "type": "boolean"
+                              },
+                              "tracking_code": {
+                                "type": "string"
                               },
                               "createdAt": {
                                 "type": "string",
@@ -12974,6 +13718,36 @@
             "type": "string",
             "format": "date-time"
           },
+          "receiver_email": {
+            "type": "string",
+            "format": "email"
+          },
+          "receiver_city": {
+            "type": "string"
+          },
+          "receiver_country": {
+            "type": "string"
+          },
+          "receiver_address": {
+            "type": "string"
+          },
+          "pickup_center": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "documentId": {
+                "type": "string"
+              }
+            }
+          },
+          "is_pickup": {
+            "type": "boolean"
+          },
+          "tracking_code": {
+            "type": "string"
+          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -13163,16 +13937,10 @@
               "documentId": {
                 "type": "string"
               },
-              "tracking_code": {
-                "type": "string"
-              },
               "receiver_name": {
                 "type": "string"
               },
               "receiver_phone": {
-                "type": "string"
-              },
-              "receiver_email": {
                 "type": "string"
               },
               "shipping_origin": {
@@ -14203,10 +14971,11 @@
                   "type": {
                     "type": "string",
                     "enum": [
+                      "border",
                       "port",
                       "warehouse",
                       "office",
-                      "border"
+                      "delivery"
                     ]
                   },
                   "shipments": {
@@ -14322,6 +15091,20 @@
                       }
                     }
                   },
+                  "shipment_pickup_centers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "documentId": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
                   "createdAt": {
                     "type": "string",
                     "format": "date-time"
@@ -14406,6 +15189,36 @@
               "delivered_at": {
                 "type": "string",
                 "format": "date-time"
+              },
+              "receiver_email": {
+                "type": "string",
+                "format": "email"
+              },
+              "receiver_city": {
+                "type": "string"
+              },
+              "receiver_country": {
+                "type": "string"
+              },
+              "receiver_address": {
+                "type": "string"
+              },
+              "pickup_center": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "documentId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "is_pickup": {
+                "type": "boolean"
+              },
+              "tracking_code": {
+                "type": "string"
               },
               "createdAt": {
                 "type": "string",
@@ -14580,10 +15393,11 @@
               "type": {
                 "type": "string",
                 "enum": [
+                  "border",
                   "port",
                   "warehouse",
                   "office",
-                  "border"
+                  "delivery"
                 ]
               },
               "shipments": {
@@ -14601,6 +15415,20 @@
                 }
               },
               "shipment_events": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ],
+                  "example": "string or id"
+                }
+              },
+              "shipment_pickup_centers": {
                 "type": "array",
                 "items": {
                   "oneOf": [
@@ -14703,10 +15531,11 @@
           "type": {
             "type": "string",
             "enum": [
+              "border",
               "port",
               "warehouse",
               "office",
-              "border"
+              "delivery"
             ]
           },
           "shipments": {
@@ -14720,16 +15549,10 @@
                 "documentId": {
                   "type": "string"
                 },
-                "tracking_code": {
-                  "type": "string"
-                },
                 "receiver_name": {
                   "type": "string"
                 },
                 "receiver_phone": {
-                  "type": "string"
-                },
-                "receiver_email": {
                   "type": "string"
                 },
                 "shipping_origin": {
@@ -15760,10 +16583,11 @@
                     "type": {
                       "type": "string",
                       "enum": [
+                        "border",
                         "port",
                         "warehouse",
                         "office",
-                        "border"
+                        "delivery"
                       ]
                     },
                     "shipments": {
@@ -15879,6 +16703,20 @@
                         }
                       }
                     },
+                    "shipment_pickup_centers": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "documentId": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
                     "createdAt": {
                       "type": "string",
                       "format": "date-time"
@@ -15964,6 +16802,36 @@
                   "type": "string",
                   "format": "date-time"
                 },
+                "receiver_email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "receiver_city": {
+                  "type": "string"
+                },
+                "receiver_country": {
+                  "type": "string"
+                },
+                "receiver_address": {
+                  "type": "string"
+                },
+                "pickup_center": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "is_pickup": {
+                  "type": "boolean"
+                },
+                "tracking_code": {
+                  "type": "string"
+                },
                 "createdAt": {
                   "type": "string",
                   "format": "date-time"
@@ -16019,6 +16887,20 @@
             }
           },
           "shipment_events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "documentId": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "shipment_pickup_centers": {
             "type": "array",
             "items": {
               "type": "object",
@@ -16674,16 +17556,10 @@
                                     "documentId": {
                                       "type": "string"
                                     },
-                                    "tracking_code": {
-                                      "type": "string"
-                                    },
                                     "receiver_name": {
                                       "type": "string"
                                     },
                                     "receiver_phone": {
-                                      "type": "string"
-                                    },
-                                    "receiver_email": {
                                       "type": "string"
                                     },
                                     "shipping_origin": {
@@ -16858,10 +17734,11 @@
                                         "type": {
                                           "type": "string",
                                           "enum": [
+                                            "border",
                                             "port",
                                             "warehouse",
                                             "office",
-                                            "border"
+                                            "delivery"
                                           ]
                                         },
                                         "shipments": {
@@ -16973,6 +17850,20 @@
                                                     }
                                                   }
                                                 }
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "shipment_pickup_centers": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "id": {
+                                                "type": "number"
+                                              },
+                                              "documentId": {
+                                                "type": "string"
                                               }
                                             }
                                           }
@@ -17155,6 +18046,36 @@
                                     "delivered_at": {
                                       "type": "string",
                                       "format": "date-time"
+                                    },
+                                    "receiver_email": {
+                                      "type": "string",
+                                      "format": "email"
+                                    },
+                                    "receiver_city": {
+                                      "type": "string"
+                                    },
+                                    "receiver_country": {
+                                      "type": "string"
+                                    },
+                                    "receiver_address": {
+                                      "type": "string"
+                                    },
+                                    "pickup_center": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "documentId": {
+                                          "type": "string"
+                                        }
+                                      }
+                                    },
+                                    "is_pickup": {
+                                      "type": "boolean"
+                                    },
+                                    "tracking_code": {
+                                      "type": "string"
                                     },
                                     "createdAt": {
                                       "type": "string",
@@ -17806,16 +18727,10 @@
                           "documentId": {
                             "type": "string"
                           },
-                          "tracking_code": {
-                            "type": "string"
-                          },
                           "receiver_name": {
                             "type": "string"
                           },
                           "receiver_phone": {
-                            "type": "string"
-                          },
-                          "receiver_email": {
                             "type": "string"
                           },
                           "shipping_origin": {
@@ -18517,10 +19432,11 @@
                               "type": {
                                 "type": "string",
                                 "enum": [
+                                  "border",
                                   "port",
                                   "warehouse",
                                   "office",
-                                  "border"
+                                  "delivery"
                                 ]
                               },
                               "shipments": {
@@ -18632,6 +19548,20 @@
                                           }
                                         }
                                       }
+                                    }
+                                  }
+                                }
+                              },
+                              "shipment_pickup_centers": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "documentId": {
+                                      "type": "string"
                                     }
                                   }
                                 }
@@ -18814,6 +19744,36 @@
                           "delivered_at": {
                             "type": "string",
                             "format": "date-time"
+                          },
+                          "receiver_email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "receiver_city": {
+                            "type": "string"
+                          },
+                          "receiver_country": {
+                            "type": "string"
+                          },
+                          "receiver_address": {
+                            "type": "string"
+                          },
+                          "pickup_center": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "is_pickup": {
+                            "type": "boolean"
+                          },
+                          "tracking_code": {
+                            "type": "string"
                           },
                           "createdAt": {
                             "type": "string",
@@ -19326,16 +20286,10 @@
                           "documentId": {
                             "type": "string"
                           },
-                          "tracking_code": {
-                            "type": "string"
-                          },
                           "receiver_name": {
                             "type": "string"
                           },
                           "receiver_phone": {
-                            "type": "string"
-                          },
-                          "receiver_email": {
                             "type": "string"
                           },
                           "shipping_origin": {
@@ -20037,10 +20991,11 @@
                               "type": {
                                 "type": "string",
                                 "enum": [
+                                  "border",
                                   "port",
                                   "warehouse",
                                   "office",
-                                  "border"
+                                  "delivery"
                                 ]
                               },
                               "shipments": {
@@ -20152,6 +21107,20 @@
                                           }
                                         }
                                       }
+                                    }
+                                  }
+                                }
+                              },
+                              "shipment_pickup_centers": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "documentId": {
+                                      "type": "string"
                                     }
                                   }
                                 }
@@ -20334,6 +21303,36 @@
                           "delivered_at": {
                             "type": "string",
                             "format": "date-time"
+                          },
+                          "receiver_email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "receiver_city": {
+                            "type": "string"
+                          },
+                          "receiver_country": {
+                            "type": "string"
+                          },
+                          "receiver_address": {
+                            "type": "string"
+                          },
+                          "pickup_center": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "is_pickup": {
+                            "type": "boolean"
+                          },
+                          "tracking_code": {
+                            "type": "string"
                           },
                           "createdAt": {
                             "type": "string",
@@ -20855,16 +21854,10 @@
                           "documentId": {
                             "type": "string"
                           },
-                          "tracking_code": {
-                            "type": "string"
-                          },
                           "receiver_name": {
                             "type": "string"
                           },
                           "receiver_phone": {
-                            "type": "string"
-                          },
-                          "receiver_email": {
                             "type": "string"
                           },
                           "shipping_origin": {
@@ -21566,10 +22559,11 @@
                               "type": {
                                 "type": "string",
                                 "enum": [
+                                  "border",
                                   "port",
                                   "warehouse",
                                   "office",
-                                  "border"
+                                  "delivery"
                                 ]
                               },
                               "shipments": {
@@ -21681,6 +22675,20 @@
                                           }
                                         }
                                       }
+                                    }
+                                  }
+                                }
+                              },
+                              "shipment_pickup_centers": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "documentId": {
+                                      "type": "string"
                                     }
                                   }
                                 }
@@ -21863,6 +22871,36 @@
                           "delivered_at": {
                             "type": "string",
                             "format": "date-time"
+                          },
+                          "receiver_email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "receiver_city": {
+                            "type": "string"
+                          },
+                          "receiver_country": {
+                            "type": "string"
+                          },
+                          "receiver_address": {
+                            "type": "string"
+                          },
+                          "pickup_center": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "is_pickup": {
+                            "type": "boolean"
+                          },
+                          "tracking_code": {
+                            "type": "string"
                           },
                           "createdAt": {
                             "type": "string",

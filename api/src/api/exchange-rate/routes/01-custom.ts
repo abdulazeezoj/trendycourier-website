@@ -56,7 +56,75 @@ const exchangeRateDocs = {
           200: {
             description: "OK",
             content: {
-              "application/json": {},
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    from: {
+                      type: "object",
+                      properties: {
+                        name: { type: "string" },
+                        code: { type: "string" },
+                      },
+                      required: ["name", "code"],
+                    },
+                    to: {
+                      type: "object",
+                      properties: {
+                        name: { type: "string" },
+                        code: { type: "string" },
+                      },
+                      required: ["name", "code"],
+                    },
+                    rate: { type: "number" },
+                    amount: { type: "number" },
+                    converted: {
+                      type: "object",
+                      properties: {
+                        round: { type: "number" },
+                        full: { type: "number" },
+                      },
+                      required: ["round", "full"],
+                    },
+                    inverted: { type: "boolean" },
+                  },
+                  required: [
+                    "from",
+                    "to",
+                    "rate",
+                    "amount",
+                    "converted",
+                    "inverted",
+                  ],
+                },
+                example: {
+                  from: {
+                    name: "Nigerian Naira",
+                    code: "NGN",
+                  },
+                  to: {
+                    name: "US Dollar",
+                    code: "USD",
+                  },
+                  rate: 0.123,
+                  amount: 100,
+                  converted: {
+                    round: 12.3,
+                    full: 12.315,
+                  },
+                  inverted: false,
+                },
+              },
+            },
+          },
+          default: {
+            description: "Error",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Error",
+                },
+              },
             },
           },
         },

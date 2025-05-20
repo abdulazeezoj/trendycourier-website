@@ -1,0 +1,31 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.1.0",
+    "title": "TrendyCourier API",
+    "description": "API documentation for TrendyCourier",
+    "termsOfService": "#",
+    "contact": {
+      "name": "Support",
+      "email": "support@sinovx.com",
+      "url": "https://sinovx.com"
+    },
+    "license": {}
+  },
+  "x-strapi-config": {
+    "plugins": ["upload", "users-permissions"],
+    "path": "/documentation"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:1337/api",
+      "description": "Development server"
+    }
+  ],
+  "externalDocs": {},
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}
