@@ -72,17 +72,16 @@
     "current_status": {
       "type": "enumeration",
       "enum": [
-        "pending",
-        "processing",
-        "ready",
-        "in-transit",
-        "arrived",
-        "cleared",
-        "delivered",
-        "cancelled",
-        "delayed"
+        "Pending",
+        "Processing",
+        "Ready for Pickup",
+        "Out for Delivery",
+        "In Transit",
+        "Delivered",
+        "Cancelled",
+        "Delayed"
       ],
-      "default": "pending",
+      "default": "Pending",
       "required": true
     },
     "current_location": {

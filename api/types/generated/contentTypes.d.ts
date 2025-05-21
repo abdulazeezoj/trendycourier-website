@@ -549,19 +549,18 @@ export interface ApiShipmentEventShipmentEvent
     >;
     shipment_status: Schema.Attribute.Enumeration<
       [
-        'pending',
-        'processing',
-        'ready',
-        'in-transit',
-        'arrived',
-        'cleared',
-        'delivered',
-        'cancelled',
-        'delayed',
+        'Pending',
+        'Processing',
+        'Ready for Pickup',
+        'Out for Delivery',
+        'In Transit',
+        'Delivered',
+        'Cancelled',
+        'Delayed',
       ]
     > &
       Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'pending'>;
+      Schema.Attribute.DefaultTo<'Pending'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -634,19 +633,18 @@ export interface ApiShipmentShipment extends Struct.CollectionTypeSchema {
     >;
     current_status: Schema.Attribute.Enumeration<
       [
-        'pending',
-        'processing',
-        'ready',
-        'in-transit',
-        'arrived',
-        'cleared',
-        'delivered',
-        'cancelled',
-        'delayed',
+        'Pending',
+        'Processing',
+        'Ready for Pickup',
+        'Out for Delivery',
+        'In Transit',
+        'Delivered',
+        'Cancelled',
+        'Delayed',
       ]
     > &
       Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'pending'>;
+      Schema.Attribute.DefaultTo<'Pending'>;
     deliveredAt: Schema.Attribute.DateTime;
     is_pickup: Schema.Attribute.Boolean &
       Schema.Attribute.Required &

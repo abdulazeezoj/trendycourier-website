@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-05-21T09:29:49.271Z"
+    "x-generation-date": "2025-05-21T11:49:05.535Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -7611,15 +7611,14 @@
                                                     "shipment_status": {
                                                       "type": "string",
                                                       "enum": [
-                                                        "pending",
-                                                        "processing",
-                                                        "ready",
-                                                        "in-transit",
-                                                        "arrived",
-                                                        "cleared",
-                                                        "delivered",
-                                                        "cancelled",
-                                                        "delayed"
+                                                        "Pending",
+                                                        "Processing",
+                                                        "Ready for Pickup",
+                                                        "Out for Delivery",
+                                                        "In Transit",
+                                                        "Delivered",
+                                                        "Cancelled",
+                                                        "Delayed"
                                                       ]
                                                     },
                                                     "message": {
@@ -8256,15 +8255,14 @@
                                           "current_status": {
                                             "type": "string",
                                             "enum": [
-                                              "pending",
-                                              "processing",
-                                              "ready",
-                                              "in-transit",
-                                              "arrived",
-                                              "cleared",
-                                              "delivered",
-                                              "cancelled",
-                                              "delayed"
+                                              "Pending",
+                                              "Processing",
+                                              "Ready for Pickup",
+                                              "Out for Delivery",
+                                              "In Transit",
+                                              "Delivered",
+                                              "Cancelled",
+                                              "Delayed"
                                             ]
                                           },
                                           "current_location": {
@@ -9454,15 +9452,14 @@
                                               "shipment_status": {
                                                 "type": "string",
                                                 "enum": [
-                                                  "pending",
-                                                  "processing",
-                                                  "ready",
-                                                  "in-transit",
-                                                  "arrived",
-                                                  "cleared",
-                                                  "delivered",
-                                                  "cancelled",
-                                                  "delayed"
+                                                  "Pending",
+                                                  "Processing",
+                                                  "Ready for Pickup",
+                                                  "Out for Delivery",
+                                                  "In Transit",
+                                                  "Delivered",
+                                                  "Cancelled",
+                                                  "Delayed"
                                                 ]
                                               },
                                               "message": {
@@ -9847,15 +9844,14 @@
                                     "current_status": {
                                       "type": "string",
                                       "enum": [
-                                        "pending",
-                                        "processing",
-                                        "ready",
-                                        "in-transit",
-                                        "arrived",
-                                        "cleared",
-                                        "delivered",
-                                        "cancelled",
-                                        "delayed"
+                                        "Pending",
+                                        "Processing",
+                                        "Ready for Pickup",
+                                        "Out for Delivery",
+                                        "In Transit",
+                                        "Delivered",
+                                        "Cancelled",
+                                        "Delayed"
                                       ]
                                     },
                                     "current_location": {
@@ -11107,15 +11103,14 @@
                                         "shipment_status": {
                                           "type": "string",
                                           "enum": [
-                                            "pending",
-                                            "processing",
-                                            "ready",
-                                            "in-transit",
-                                            "arrived",
-                                            "cleared",
-                                            "delivered",
-                                            "cancelled",
-                                            "delayed"
+                                            "Pending",
+                                            "Processing",
+                                            "Ready for Pickup",
+                                            "Out for Delivery",
+                                            "In Transit",
+                                            "Delivered",
+                                            "Cancelled",
+                                            "Delayed"
                                           ]
                                         },
                                         "message": {
@@ -11500,15 +11495,14 @@
                               "current_status": {
                                 "type": "string",
                                 "enum": [
-                                  "pending",
-                                  "processing",
-                                  "ready",
-                                  "in-transit",
-                                  "arrived",
-                                  "cleared",
-                                  "delivered",
-                                  "cancelled",
-                                  "delayed"
+                                  "Pending",
+                                  "Processing",
+                                  "Ready for Pickup",
+                                  "Out for Delivery",
+                                  "In Transit",
+                                  "Delivered",
+                                  "Cancelled",
+                                  "Delayed"
                                 ]
                               },
                               "current_location": {
@@ -12068,15 +12062,14 @@
               "current_status": {
                 "type": "string",
                 "enum": [
-                  "pending",
-                  "processing",
-                  "ready",
-                  "in-transit",
-                  "arrived",
-                  "cleared",
-                  "delivered",
-                  "cancelled",
-                  "delayed"
+                  "Pending",
+                  "Processing",
+                  "Ready for Pickup",
+                  "Out for Delivery",
+                  "In Transit",
+                  "Delivered",
+                  "Cancelled",
+                  "Delayed"
                 ]
               },
               "current_location": {
@@ -13266,15 +13259,14 @@
                         "current_status": {
                           "type": "string",
                           "enum": [
-                            "pending",
-                            "processing",
-                            "ready",
-                            "in-transit",
-                            "arrived",
-                            "cleared",
-                            "delivered",
-                            "cancelled",
-                            "delayed"
+                            "Pending",
+                            "Processing",
+                            "Ready for Pickup",
+                            "Out for Delivery",
+                            "In Transit",
+                            "Delivered",
+                            "Cancelled",
+                            "Delayed"
                           ]
                         },
                         "current_location": {
@@ -13368,15 +13360,14 @@
                     "shipment_status": {
                       "type": "string",
                       "enum": [
-                        "pending",
-                        "processing",
-                        "ready",
-                        "in-transit",
-                        "arrived",
-                        "cleared",
-                        "delivered",
-                        "cancelled",
-                        "delayed"
+                        "Pending",
+                        "Processing",
+                        "Ready for Pickup",
+                        "Out for Delivery",
+                        "In Transit",
+                        "Delivered",
+                        "Cancelled",
+                        "Delayed"
                       ]
                     },
                     "message": {
@@ -13582,15 +13573,14 @@
           "current_status": {
             "type": "string",
             "enum": [
-              "pending",
-              "processing",
-              "ready",
-              "in-transit",
-              "arrived",
-              "cleared",
-              "delivered",
-              "cancelled",
-              "delayed"
+              "Pending",
+              "Processing",
+              "Ready for Pickup",
+              "Out for Delivery",
+              "In Transit",
+              "Delivered",
+              "Cancelled",
+              "Delayed"
             ]
           },
           "current_location": {
@@ -13719,15 +13709,14 @@
               "shipment_status": {
                 "type": "string",
                 "enum": [
-                  "pending",
-                  "processing",
-                  "ready",
-                  "in-transit",
-                  "arrived",
-                  "cleared",
-                  "delivered",
-                  "cancelled",
-                  "delayed"
+                  "Pending",
+                  "Processing",
+                  "Ready for Pickup",
+                  "Out for Delivery",
+                  "In Transit",
+                  "Delivered",
+                  "Cancelled",
+                  "Delayed"
                 ]
               },
               "message": {
@@ -13897,15 +13886,14 @@
                         "shipment_status": {
                           "type": "string",
                           "enum": [
-                            "pending",
-                            "processing",
-                            "ready",
-                            "in-transit",
-                            "arrived",
-                            "cleared",
-                            "delivered",
-                            "cancelled",
-                            "delayed"
+                            "Pending",
+                            "Processing",
+                            "Ready for Pickup",
+                            "Out for Delivery",
+                            "In Transit",
+                            "Delivered",
+                            "Cancelled",
+                            "Delayed"
                           ]
                         },
                         "message": {
@@ -15038,15 +15026,14 @@
               "current_status": {
                 "type": "string",
                 "enum": [
-                  "pending",
-                  "processing",
-                  "ready",
-                  "in-transit",
-                  "arrived",
-                  "cleared",
-                  "delivered",
-                  "cancelled",
-                  "delayed"
+                  "Pending",
+                  "Processing",
+                  "Ready for Pickup",
+                  "Out for Delivery",
+                  "In Transit",
+                  "Delivered",
+                  "Cancelled",
+                  "Delayed"
                 ]
               },
               "current_location": {
@@ -15140,15 +15127,14 @@
           "shipment_status": {
             "type": "string",
             "enum": [
-              "pending",
-              "processing",
-              "ready",
-              "in-transit",
-              "arrived",
-              "cleared",
-              "delivered",
-              "cancelled",
-              "delayed"
+              "Pending",
+              "Processing",
+              "Ready for Pickup",
+              "Out for Delivery",
+              "In Transit",
+              "Delivered",
+              "Cancelled",
+              "Delayed"
             ]
           },
           "message": {
@@ -16547,15 +16533,14 @@
                     "current_status": {
                       "type": "string",
                       "enum": [
-                        "pending",
-                        "processing",
-                        "ready",
-                        "in-transit",
-                        "arrived",
-                        "cleared",
-                        "delivered",
-                        "cancelled",
-                        "delayed"
+                        "Pending",
+                        "Processing",
+                        "Ready for Pickup",
+                        "Out for Delivery",
+                        "In Transit",
+                        "Delivered",
+                        "Cancelled",
+                        "Delayed"
                       ]
                     },
                     "current_location": {
@@ -16649,15 +16634,14 @@
                 "shipment_status": {
                   "type": "string",
                   "enum": [
-                    "pending",
-                    "processing",
-                    "ready",
-                    "in-transit",
-                    "arrived",
-                    "cleared",
-                    "delivered",
-                    "cancelled",
-                    "delayed"
+                    "Pending",
+                    "Processing",
+                    "Ready for Pickup",
+                    "Out for Delivery",
+                    "In Transit",
+                    "Delivered",
+                    "Cancelled",
+                    "Delayed"
                   ]
                 },
                 "message": {
@@ -17473,15 +17457,14 @@
                                               "shipment_status": {
                                                 "type": "string",
                                                 "enum": [
-                                                  "pending",
-                                                  "processing",
-                                                  "ready",
-                                                  "in-transit",
-                                                  "arrived",
-                                                  "cleared",
-                                                  "delivered",
-                                                  "cancelled",
-                                                  "delayed"
+                                                  "Pending",
+                                                  "Processing",
+                                                  "Ready for Pickup",
+                                                  "Out for Delivery",
+                                                  "In Transit",
+                                                  "Delivered",
+                                                  "Cancelled",
+                                                  "Delayed"
                                                 ]
                                               },
                                               "message": {
@@ -17866,15 +17849,14 @@
                                     "current_status": {
                                       "type": "string",
                                       "enum": [
-                                        "pending",
-                                        "processing",
-                                        "ready",
-                                        "in-transit",
-                                        "arrived",
-                                        "cleared",
-                                        "delivered",
-                                        "cancelled",
-                                        "delayed"
+                                        "Pending",
+                                        "Processing",
+                                        "Ready for Pickup",
+                                        "Out for Delivery",
+                                        "In Transit",
+                                        "Delivered",
+                                        "Cancelled",
+                                        "Delayed"
                                       ]
                                     },
                                     "current_location": {
@@ -18623,15 +18605,14 @@
                                     "shipment_status": {
                                       "type": "string",
                                       "enum": [
-                                        "pending",
-                                        "processing",
-                                        "ready",
-                                        "in-transit",
-                                        "arrived",
-                                        "cleared",
-                                        "delivered",
-                                        "cancelled",
-                                        "delayed"
+                                        "Pending",
+                                        "Processing",
+                                        "Ready for Pickup",
+                                        "Out for Delivery",
+                                        "In Transit",
+                                        "Delivered",
+                                        "Cancelled",
+                                        "Delayed"
                                       ]
                                     },
                                     "message": {
@@ -19543,15 +19524,14 @@
                           "current_status": {
                             "type": "string",
                             "enum": [
-                              "pending",
-                              "processing",
-                              "ready",
-                              "in-transit",
-                              "arrived",
-                              "cleared",
-                              "delivered",
-                              "cancelled",
-                              "delayed"
+                              "Pending",
+                              "Processing",
+                              "Ready for Pickup",
+                              "Out for Delivery",
+                              "In Transit",
+                              "Delivered",
+                              "Cancelled",
+                              "Delayed"
                             ]
                           },
                           "current_location": {
@@ -20161,15 +20141,14 @@
                                     "shipment_status": {
                                       "type": "string",
                                       "enum": [
-                                        "pending",
-                                        "processing",
-                                        "ready",
-                                        "in-transit",
-                                        "arrived",
-                                        "cleared",
-                                        "delivered",
-                                        "cancelled",
-                                        "delayed"
+                                        "Pending",
+                                        "Processing",
+                                        "Ready for Pickup",
+                                        "Out for Delivery",
+                                        "In Transit",
+                                        "Delivered",
+                                        "Cancelled",
+                                        "Delayed"
                                       ]
                                     },
                                     "message": {
@@ -21081,15 +21060,14 @@
                           "current_status": {
                             "type": "string",
                             "enum": [
-                              "pending",
-                              "processing",
-                              "ready",
-                              "in-transit",
-                              "arrived",
-                              "cleared",
-                              "delivered",
-                              "cancelled",
-                              "delayed"
+                              "Pending",
+                              "Processing",
+                              "Ready for Pickup",
+                              "Out for Delivery",
+                              "In Transit",
+                              "Delivered",
+                              "Cancelled",
+                              "Delayed"
                             ]
                           },
                           "current_location": {
@@ -21708,15 +21686,14 @@
                                     "shipment_status": {
                                       "type": "string",
                                       "enum": [
-                                        "pending",
-                                        "processing",
-                                        "ready",
-                                        "in-transit",
-                                        "arrived",
-                                        "cleared",
-                                        "delivered",
-                                        "cancelled",
-                                        "delayed"
+                                        "Pending",
+                                        "Processing",
+                                        "Ready for Pickup",
+                                        "Out for Delivery",
+                                        "In Transit",
+                                        "Delivered",
+                                        "Cancelled",
+                                        "Delayed"
                                       ]
                                     },
                                     "message": {
@@ -22628,15 +22605,14 @@
                           "current_status": {
                             "type": "string",
                             "enum": [
-                              "pending",
-                              "processing",
-                              "ready",
-                              "in-transit",
-                              "arrived",
-                              "cleared",
-                              "delivered",
-                              "cancelled",
-                              "delayed"
+                              "Pending",
+                              "Processing",
+                              "Ready for Pickup",
+                              "Out for Delivery",
+                              "In Transit",
+                              "Delivered",
+                              "Cancelled",
+                              "Delayed"
                             ]
                           },
                           "current_location": {

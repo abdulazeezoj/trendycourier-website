@@ -19,23 +19,7 @@ export default {
         .registerOverride({
           paths: {
             ...freightRateDocs.paths,
-          },
-        });
-
-      strapi
-        .plugin("documentation")
-        .service("override")
-        .registerOverride({
-          paths: {
             ...exchangeRateDocs.paths,
-          },
-        });
-
-      strapi
-        .plugin("documentation")
-        .service("override")
-        .registerOverride({
-          paths: {
             ...shipmentDocs.paths,
           },
         });
