@@ -11,10 +11,6 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "tracking_code": {
-      "type": "uid",
-      "required": false
-    },
     "receiver_name": {
       "type": "string",
       "required": true
@@ -24,8 +20,27 @@
       "required": true
     },
     "receiver_email": {
-      "type": "string",
-      "required": false
+      "type": "email"
+    },
+    "receiver_city": {
+      "type": "string"
+    },
+    "receiver_country": {
+      "type": "string"
+    },
+    "receiver_address": {
+      "type": "text"
+    },
+    "pickup_center": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipment-location.shipment-location",
+      "inversedBy": "shipment_pickup_centers"
+    },
+    "is_pickup": {
+      "type": "boolean",
+      "default": true,
+      "required": true
     },
     "shipping_origin": {
       "type": "relation",
@@ -45,30 +60,32 @@
       "target": "api::shipping-method.shipping-method",
       "inversedBy": "shipments"
     },
-    "shipping_freight_rate": {
+    "shipping_size": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::freight-rate.freight-rate",
+      "target": "api::shipping-size.shipping-size",
       "inversedBy": "shipments"
     },
     "shipping_size_value": {
       "type": "decimal"
     },
-    "shipment_status": {
+    "current_status": {
       "type": "enumeration",
       "enum": [
         "pending",
-        "ready-for-pickup",
+        "processing",
+        "ready",
         "in-transit",
         "arrived",
         "cleared",
         "delivered",
-        "cancelled"
+        "cancelled",
+        "delayed"
       ],
       "default": "pending",
       "required": true
     },
-    "shipment_location": {
+    "current_location": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::shipment-location.shipment-location",
@@ -83,14 +100,11 @@
       "target": "api::shipment-event.shipment-event",
       "mappedBy": "shipment"
     },
-    "shipping_size": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::shipping-size.shipping-size",
-      "inversedBy": "shipments"
-    },
-    "delivered_at": {
+    "deliveredAt": {
       "type": "datetime"
+    },
+    "tracking_code": {
+      "type": "string"
     }
   }
 }

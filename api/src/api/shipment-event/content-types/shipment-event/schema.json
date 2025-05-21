@@ -21,9 +21,14 @@
       "type": "enumeration",
       "enum": [
         "pending",
+        "processing",
+        "ready",
         "in-transit",
+        "arrived",
+        "cleared",
         "delivered",
-        "cleared"
+        "cancelled",
+        "delayed"
       ],
       "required": true,
       "default": "pending"

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "currency",
     "pluralName": "currencies",
-    "displayName": "Currency"
+    "displayName": "Currency",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true

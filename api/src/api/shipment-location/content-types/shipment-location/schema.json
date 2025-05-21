@@ -4,7 +4,8 @@
   "info": {
     "singularName": "shipment-location",
     "pluralName": "shipment-locations",
-    "displayName": "ShipmentLocation"
+    "displayName": "ShipmentLocation",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -27,29 +28,33 @@
       "type": "string",
       "required": true
     },
-    "notes": {
-      "type": "text"
-    },
     "type": {
       "type": "enumeration",
       "enum": [
+        "border",
         "port",
         "warehouse",
         "office",
-        "border"
+        "delivery"
       ]
-    },
-    "shipments": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::shipment.shipment",
-      "mappedBy": "shipment_location"
     },
     "shipment_events": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::shipment-event.shipment-event",
       "mappedBy": "shipment_location"
+    },
+    "shipment_pickup_centers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "pickup_center"
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "current_location"
     }
   }
 }

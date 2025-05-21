@@ -24,7 +24,8 @@ export default factories.createCoreController(
           populate: {
             shipping_origin: true,
             shipping_destination: true,
-            shipment_location: true,
+            current_location: true,
+            pickup_center: true,
             shipment_events: {
               populate: {
                 shipment_location: true,
@@ -49,12 +50,18 @@ export default factories.createCoreController(
           city: string;
           country: string;
         };
-        shipment_location: {
+        current_location: {
           name: string;
           code: string;
           city: string;
           country: string;
-          notes?: string;
+          type: string;
+        };
+        pickup_center?: {
+          name: string;
+          code: string;
+          city: string;
+          country: string;
           type: string;
         };
         shipment_events: {
@@ -64,7 +71,6 @@ export default factories.createCoreController(
             code: string;
             city: string;
             country: string;
-            notes?: string;
             type: string;
           };
           message: string;
@@ -82,12 +88,29 @@ export default factories.createCoreController(
           city: shipment.shipping_destination.city,
           country: shipment.shipping_destination.country,
         },
-        shipment_status: shipment.shipment_status,
-        shipment_location: {
-          name: shipment.shipment_location.name,
-          city: shipment.shipment_location.city,
-          country: shipment.shipment_location.country,
-          type: shipment.shipment_location.type,
+        is_pickup: shipment.is_pickup,
+        receiver: {
+          address: shipment.receiver_address,
+          city: shipment.receiver_city,
+          country: shipment.receiver_country,
+          name: shipment.receiver_name,
+          phone: shipment.receiver_phone,
+          email: shipment.receiver_email,
+        },
+        pickup_center: shipment.pickup_center
+          ? {
+              name: shipment.pickup_center.name,
+              city: shipment.pickup_center.city,
+              country: shipment.pickup_center.country,
+              type: shipment.pickup_center.type,
+            }
+          : null,
+        current_status: shipment.current_status,
+        current_location: {
+          name: shipment.current_location.name,
+          city: shipment.current_location.city,
+          country: shipment.current_location.country,
+          type: shipment.current_location.type,
         },
         events: (shipment.shipment_events || []).map((event: any) => ({
           shipment_status: event.shipment_status,
