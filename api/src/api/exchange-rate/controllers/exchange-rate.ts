@@ -3,7 +3,9 @@
  */
 
 import { factories } from "@strapi/strapi";
+import { errors } from "@strapi/utils";
 import { Context } from "koa";
+import { ExchangeRateConvertResult } from "../services/exchange-rate";
 
 export default factories.createCoreController(
   "api::exchange-rate.exchange-rate",
@@ -11,62 +13,43 @@ export default factories.createCoreController(
     async convert(ctx: Context) {
       const { from, to, amount } = ctx.query;
 
-      if (!from || !to || !amount) {
-        return ctx.badRequest(
-          "Missing required query parameters: from, to, amount"
-        );
-      }
+      try {
+        // Convert amount based on exchange rate
+        const result: ExchangeRateConvertResult = await strapi
+          .service("api::exchange-rate.exchange-rate")
+          .convert(from, to, amount);
 
-      const exchangeRates = await strapi.entityService.findMany(
-        "api::exchange-rate.exchange-rate",
-        {
-          filters: {
-            from_currency: { code: from },
-            to_currency: { code: to },
+        ctx.body = {
+          from: {
+            code: result.from.code,
+            name: result.from.name,
           },
-          populate: ["from_currency", "to_currency"],
-          limit: 1,
-        }
-      );
+          to: {
+            code: result.to.code,
+            name: result.to.name,
+          },
+          rate: result.rate,
+          amount: result.amount,
+          converted: {
+            round: parseFloat(result.convertedAmount.toFixed(2)),
+            full: result.convertedAmount,
+          },
+          inverted: result.inverted,
+        };
+        ctx.status = 200;
+      } catch (err: any) {
+        console.error("Error converting exchange rate:", err);
 
-      let rate: number | undefined;
-      let inverted = false;
-      if (exchangeRates.length > 0) {
-        rate = exchangeRates[0].rate;
-      } else {
-        // Try inverted
-        const invertedRates = await strapi.entityService.findMany(
-          "api::exchange-rate.exchange-rate",
-          {
-            filters: {
-              from_currency: { code: to },
-              to_currency: { code: from },
-            },
-            populate: ["from_currency", "to_currency"],
-            limit: 1,
-          }
-        );
-        if (invertedRates.length > 0) {
-          rate = 1 / invertedRates[0].rate;
-          inverted = true;
+        if (err instanceof errors.ValidationError) {
+          return ctx.badRequest(err.message);
+        } else if (err instanceof errors.NotFoundError) {
+          return ctx.notFound(err.message);
         } else {
-          return ctx.notFound("Exchange rate not found (direct or inverse)");
+          return ctx.internalServerError(
+            "An error occurred while converting exchange rate"
+          );
         }
       }
-
-      const parsedAmount = parseFloat(String(amount));
-      const convertedAmount = parsedAmount * (rate as number);
-
-      ctx.body = {
-        from,
-        to,
-        rate,
-        amount: parsedAmount,
-        convertedAmount: parseFloat(convertedAmount.toFixed(2)),
-        fullConvertedAmount: convertedAmount,
-        inverted,
-      };
-      ctx.status = 200;
     },
   })
 );
