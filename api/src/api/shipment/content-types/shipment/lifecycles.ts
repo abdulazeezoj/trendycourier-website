@@ -31,10 +31,10 @@ export default {
         throw new Error("Pickup center must be of type 'delivery'.");
       }
 
-      // Clear delivery address fields
-      data.receiver_address = null;
-      data.receiver_city = null;
-      data.receiver_country = null;
+      // // Clear delivery address fields
+      // data.receiver_address = null;
+      // data.receiver_city = null;
+      // data.receiver_country = null;
     } else {
       if (
         !data.receiver_address ||
@@ -62,20 +62,107 @@ export default {
       const stamp = Date.now().toString().slice(-4);
       trackingCode = `TRK-${stamp}-${rand}`;
 
-      const existing = await strapi.entityService.findMany(
-        "api::shipment.shipment",
-        {
+      const [existing] = await strapi
+        .documents("api::shipment.shipment")
+        .findMany({
           filters: { tracking_code: trackingCode },
           limit: 1,
-        }
-      );
+        });
 
-      if (existing.length === 0) unique = true;
+      if (!existing) unique = true;
     }
 
     data.tracking_code = trackingCode;
 
     // Set initial current location to null
     data.current_location = null;
+  },
+  async afterCreate(event: Event) {
+    const { data } = event.params;
+
+    // Skip second invocation (Draft & Publish)
+    if (data.publishedAt) return;
+
+    const getId = (rel: any) => rel?.connect?.[0]?.id;
+
+    const pickupCenterId = getId(data.pickup_center);
+
+    const receiverPhone = data.receiver_phone;
+    const receiverName = data.receiver_name;
+    const receiverEmail = data.receiver_email;
+    const receiverAddress = data.receiver_address;
+    const trackingCode = data.tracking_code;
+    const isPickup = data.is_pickup;
+    const notificationService = strapi.service(
+      "api::notification.notification"
+    );
+
+    let smsTemplate: string;
+    let smsData: Record<string, any>;
+    let emailTemplate: string;
+    let emailData: Record<string, any>;
+
+    if (isPickup) {
+      // Fetch pickup center details
+      let pickupCenterName = "";
+      let pickupCenterCity = "";
+      let pickupCenterCountry = "";
+      if (pickupCenterId) {
+        const pickupCenter = await strapi
+          .documents("api::shipment-location.shipment-location")
+          .findFirst({ filters: { id: pickupCenterId } });
+        if (pickupCenter) {
+          pickupCenterName = pickupCenter.name || "";
+          pickupCenterCity = pickupCenter.city || "";
+          pickupCenterCountry = pickupCenter.country || "";
+        }
+      }
+      smsTemplate = `Hello {{name}}, your package is on the way! Tracking code: {{trackingCode}}. Pickup center: {{pickupCenterName}}, {{pickupCenterCity}}, {{pickupCenterCountry}}.`;
+      smsData = {
+        name: receiverName,
+        trackingCode,
+        pickupCenterName,
+        pickupCenterCity,
+        pickupCenterCountry,
+      };
+      emailTemplate = `<p>Hello {{name}},</p><p>Your package is on the way!</p><p><strong>Tracking code:</strong> {{trackingCode}}</p><p><strong>Pickup center:</strong> {{pickupCenterName}}, {{pickupCenterCity}}, {{pickupCenterCountry}}</p>`;
+      emailData = smsData;
+    } else {
+      smsTemplate = `Hello {{name}}, your package is on the way! Tracking code: {{trackingCode}}. Address: {{address}}.`;
+      smsData = {
+        name: receiverName,
+        address: receiverAddress,
+        trackingCode,
+      };
+      emailTemplate = `<p>Hello {{name}},</p><p>Your package is on the way!</p><p><strong>Tracking code:</strong> {{trackingCode}}</p><p><strong>Address:</strong> {{address}}</p>`;
+      emailData = smsData;
+    }
+
+    // Send SMS
+    try {
+      await notificationService.sendSMS(receiverPhone, {
+        template: smsTemplate,
+        data: smsData,
+      });
+    } catch (err) {
+      strapi.log.error("Failed to send SMS notification:", err);
+    }
+
+    // Send Email
+    const emailSubject = "Your Shipment is on the Way!";
+    try {
+      await notificationService.sendEmail(
+        receiverEmail,
+        receiverName,
+        emailSubject,
+        {
+          template: emailTemplate,
+          data: emailData,
+          isHtml: true,
+        }
+      );
+    } catch (err) {
+      strapi.log.error("Failed to send email notification:", err);
+    }
   },
 };

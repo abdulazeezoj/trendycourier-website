@@ -23,10 +23,12 @@
       "type": "email"
     },
     "receiver_city": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "receiver_country": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "receiver_address": {
       "type": "text"

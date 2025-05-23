@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-05-21T11:49:05.535Z"
+    "x-generation-date": "2025-05-23T07:56:51.069Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -11973,6 +11973,8 @@
             "required": [
               "receiver_name",
               "receiver_phone",
+              "receiver_city",
+              "receiver_country",
               "is_pickup",
               "current_status"
             ],
@@ -12168,6 +12170,8 @@
         "required": [
           "receiver_name",
           "receiver_phone",
+          "receiver_city",
+          "receiver_country",
           "is_pickup",
           "current_status"
         ],

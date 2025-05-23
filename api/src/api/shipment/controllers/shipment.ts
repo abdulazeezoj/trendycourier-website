@@ -17,9 +17,9 @@ export default factories.createCoreController(
       }
 
       // Fetch the shipment using the tracking code
-      const [shipmentRaw] = await strapi.entityService.findMany(
-        "api::shipment.shipment",
-        {
+      const [shipment] = await strapi
+        .documents("api::shipment.shipment")
+        .findMany({
           filters: { tracking_code: code },
           populate: {
             shipping_origin: true,
@@ -34,49 +34,9 @@ export default factories.createCoreController(
             },
           },
           limit: 1,
-        }
-      );
+        });
 
-      if (!shipmentRaw) return ctx.notFound("Shipment not found");
-
-      const shipment = shipmentRaw as typeof shipmentRaw & {
-        shipping_origin: {
-          code: string;
-          city: string;
-          country: string;
-        };
-        shipping_destination: {
-          code: string;
-          city: string;
-          country: string;
-        };
-        current_location: {
-          name: string;
-          code: string;
-          city: string;
-          country: string;
-          type: string;
-        };
-        pickup_center?: {
-          name: string;
-          code: string;
-          city: string;
-          country: string;
-          type: string;
-        };
-        shipment_events: {
-          shipment_status: string;
-          shipment_location: {
-            name: string;
-            code: string;
-            city: string;
-            country: string;
-            type: string;
-          };
-          message: string;
-          updatedAt: string;
-        }[];
-      };
+      if (!shipment) return ctx.notFound("Shipment not found");
 
       ctx.body = {
         tracking_code: shipment.tracking_code,

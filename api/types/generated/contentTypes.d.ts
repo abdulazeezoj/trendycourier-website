@@ -661,8 +661,8 @@ export interface ApiShipmentShipment extends Struct.CollectionTypeSchema {
     >;
     publishedAt: Schema.Attribute.DateTime;
     receiver_address: Schema.Attribute.Text;
-    receiver_city: Schema.Attribute.String;
-    receiver_country: Schema.Attribute.String;
+    receiver_city: Schema.Attribute.String & Schema.Attribute.Required;
+    receiver_country: Schema.Attribute.String & Schema.Attribute.Required;
     receiver_email: Schema.Attribute.Email;
     receiver_name: Schema.Attribute.String & Schema.Attribute.Required;
     receiver_phone: Schema.Attribute.String & Schema.Attribute.Required;
