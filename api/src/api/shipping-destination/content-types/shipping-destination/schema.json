@@ -23,7 +23,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::currency.currency",
-      "inversedBy": "shipping_destinations"
+      "inversedBy": "shipping_destinations",
+      "required": true
     },
     "freight_rates": {
       "type": "relation",

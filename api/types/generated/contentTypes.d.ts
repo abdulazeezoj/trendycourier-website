@@ -602,7 +602,6 @@ export interface ApiShipmentLocationShipmentLocation
       'oneToMany',
       'api::shipment.shipment'
     >;
-    shipments: Schema.Attribute.Relation<'oneToMany', 'api::shipment.shipment'>;
     type: Schema.Attribute.Enumeration<
       ['border', 'port', 'warehouse', 'office', 'delivery']
     >;
@@ -627,25 +626,6 @@ export interface ApiShipmentShipment extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    current_location: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::shipment-location.shipment-location'
-    >;
-    current_status: Schema.Attribute.Enumeration<
-      [
-        'Pending',
-        'Processing',
-        'Ready for Pickup',
-        'Out for Delivery',
-        'In Transit',
-        'Delivered',
-        'Cancelled',
-        'Delayed',
-      ]
-    > &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<'Pending'>;
-    deliveredAt: Schema.Attribute.DateTime;
     is_pickup: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<true>;
@@ -670,7 +650,12 @@ export interface ApiShipmentShipment extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::shipment-event.shipment-event'
     >;
+    shipment_metric: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-size.shipping-size'
+    >;
     shipment_note: Schema.Attribute.Text;
+    shipment_size: Schema.Attribute.Decimal;
     shipping_destination: Schema.Attribute.Relation<
       'manyToOne',
       'api::shipping-destination.shipping-destination'
@@ -683,11 +668,6 @@ export interface ApiShipmentShipment extends Struct.CollectionTypeSchema {
       'manyToOne',
       'api::shipping-origin.shipping-origin'
     >;
-    shipping_size: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::shipping-size.shipping-size'
-    >;
-    shipping_size_value: Schema.Attribute.Decimal;
     tracking_code: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -716,7 +696,8 @@ export interface ApiShippingDestinationShippingDestination
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    currency: Schema.Attribute.Relation<'manyToOne', 'api::currency.currency'>;
+    currency: Schema.Attribute.Relation<'manyToOne', 'api::currency.currency'> &
+      Schema.Attribute.Required;
     freight_rates: Schema.Attribute.Relation<
       'oneToMany',
       'api::freight-rate.freight-rate'
@@ -816,7 +797,8 @@ export interface ApiShippingSizeShippingSize
   extends Struct.CollectionTypeSchema {
   collectionName: 'shipping_sizes';
   info: {
-    displayName: 'ShippingSize';
+    description: '';
+    displayName: 'ShipmentMetric';
     pluralName: 'shipping-sizes';
     singularName: 'shipping-size';
   };

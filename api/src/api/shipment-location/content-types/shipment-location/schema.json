@@ -49,12 +49,6 @@
       "relation": "oneToMany",
       "target": "api::shipment.shipment",
       "mappedBy": "pickup_center"
-    },
-    "shipments": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::shipment.shipment",
-      "mappedBy": "current_location"
     }
   }
 }

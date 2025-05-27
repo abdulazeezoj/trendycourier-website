@@ -4,7 +4,8 @@
   "info": {
     "singularName": "shipping-size",
     "pluralName": "shipping-sizes",
-    "displayName": "ShippingSize"
+    "displayName": "ShipmentMetric",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -38,7 +39,7 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::shipment.shipment",
-      "mappedBy": "shipping_size"
+      "mappedBy": "shipment_metric"
     }
   }
 }

@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-05-23T11:24:21.223Z"
+    "x-generation-date": "2025-05-27T20:51:15.505Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -7228,6 +7228,190 @@
           "Shipment"
         ]
       }
+    },
+    "/shipments/bulk": {
+      "post": {
+        "operationId": "post/shipments/bulk",
+        "summary": "Create bulk shipments",
+        "description": "",
+        "requestBody": {
+          "description": "Upload file",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Excel file containing shipment data"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "tracking_code": {
+                        "type": "string"
+                      },
+                      "shipping_origin": {
+                        "type": "object",
+                        "properties": {
+                          "city": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "city",
+                          "country"
+                        ]
+                      },
+                      "shipping_destination": {
+                        "type": "object",
+                        "properties": {
+                          "city": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "city",
+                          "country"
+                        ]
+                      },
+                      "receiver": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "phone": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "address",
+                          "city",
+                          "country",
+                          "name",
+                          "phone",
+                          "email"
+                        ]
+                      },
+                      "is_pickup": {
+                        "type": "boolean"
+                      },
+                      "pickup_center": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "city",
+                          "country",
+                          "type"
+                        ]
+                      },
+                      "current_status": {
+                        "type": "string"
+                      },
+                      "current_location": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "city": {
+                            "type": "string"
+                          },
+                          "country": {
+                            "type": "string"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "city",
+                          "country",
+                          "type"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "tracking_code",
+                      "shipping_origin",
+                      "shipping_destination",
+                      "receiver",
+                      "is_pickup",
+                      "pickup_center",
+                      "current_status",
+                      "current_location"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Shipment"
+        ]
+      }
     }
   },
   "components": {
@@ -7534,6 +7718,9 @@
                                             "type": "number"
                                           },
                                           "documentId": {
+                                            "type": "string"
+                                          },
+                                          "tracking_code": {
                                             "type": "string"
                                           },
                                           "receiver_name": {
@@ -7955,20 +8142,6 @@
                                                   }
                                                 }
                                               },
-                                              "shipments": {
-                                                "type": "array",
-                                                "items": {
-                                                  "type": "object",
-                                                  "properties": {
-                                                    "id": {
-                                                      "type": "number"
-                                                    },
-                                                    "documentId": {
-                                                      "type": "string"
-                                                    }
-                                                  }
-                                                }
-                                              },
                                               "createdAt": {
                                                 "type": "string",
                                                 "format": "date-time"
@@ -8143,7 +8316,7 @@
                                               }
                                             }
                                           },
-                                          "shipping_size": {
+                                          "shipment_metric": {
                                             "type": "object",
                                             "properties": {
                                               "id": {
@@ -8248,33 +8421,9 @@
                                               }
                                             }
                                           },
-                                          "shipping_size_value": {
+                                          "shipment_size": {
                                             "type": "number",
                                             "format": "float"
-                                          },
-                                          "current_status": {
-                                            "type": "string",
-                                            "enum": [
-                                              "Pending",
-                                              "Processing",
-                                              "Ready for Pickup",
-                                              "Out for Delivery",
-                                              "In Transit",
-                                              "Delivered",
-                                              "Cancelled",
-                                              "Delayed"
-                                            ]
-                                          },
-                                          "current_location": {
-                                            "type": "object",
-                                            "properties": {
-                                              "id": {
-                                                "type": "number"
-                                              },
-                                              "documentId": {
-                                                "type": "string"
-                                              }
-                                            }
                                           },
                                           "shipment_note": {
                                             "type": "string"
@@ -8292,13 +8441,6 @@
                                                 }
                                               }
                                             }
-                                          },
-                                          "deliveredAt": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                          },
-                                          "tracking_code": {
-                                            "type": "string"
                                           },
                                           "createdAt": {
                                             "type": "string",
@@ -9377,6 +9519,9 @@
                                     "documentId": {
                                       "type": "string"
                                     },
+                                    "tracking_code": {
+                                      "type": "string"
+                                    },
                                     "receiver_name": {
                                       "type": "string"
                                     },
@@ -9531,20 +9676,6 @@
                                           }
                                         },
                                         "shipment_pickup_centers": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "id": {
-                                                "type": "number"
-                                              },
-                                              "documentId": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "shipments": {
                                           "type": "array",
                                           "items": {
                                             "type": "object",
@@ -9732,7 +9863,7 @@
                                         }
                                       }
                                     },
-                                    "shipping_size": {
+                                    "shipment_metric": {
                                       "type": "object",
                                       "properties": {
                                         "id": {
@@ -9837,33 +9968,9 @@
                                         }
                                       }
                                     },
-                                    "shipping_size_value": {
+                                    "shipment_size": {
                                       "type": "number",
                                       "format": "float"
-                                    },
-                                    "current_status": {
-                                      "type": "string",
-                                      "enum": [
-                                        "Pending",
-                                        "Processing",
-                                        "Ready for Pickup",
-                                        "Out for Delivery",
-                                        "In Transit",
-                                        "Delivered",
-                                        "Cancelled",
-                                        "Delayed"
-                                      ]
-                                    },
-                                    "current_location": {
-                                      "type": "object",
-                                      "properties": {
-                                        "id": {
-                                          "type": "number"
-                                        },
-                                        "documentId": {
-                                          "type": "string"
-                                        }
-                                      }
                                     },
                                     "shipment_note": {
                                       "type": "string"
@@ -9881,13 +9988,6 @@
                                           }
                                         }
                                       }
-                                    },
-                                    "deliveredAt": {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    "tracking_code": {
-                                      "type": "string"
                                     },
                                     "createdAt": {
                                       "type": "string",
@@ -11028,6 +11128,9 @@
                               "documentId": {
                                 "type": "string"
                               },
+                              "tracking_code": {
+                                "type": "string"
+                              },
                               "receiver_name": {
                                 "type": "string"
                               },
@@ -11182,20 +11285,6 @@
                                     }
                                   },
                                   "shipment_pickup_centers": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "object",
-                                      "properties": {
-                                        "id": {
-                                          "type": "number"
-                                        },
-                                        "documentId": {
-                                          "type": "string"
-                                        }
-                                      }
-                                    }
-                                  },
-                                  "shipments": {
                                     "type": "array",
                                     "items": {
                                       "type": "object",
@@ -11383,7 +11472,7 @@
                                   }
                                 }
                               },
-                              "shipping_size": {
+                              "shipment_metric": {
                                 "type": "object",
                                 "properties": {
                                   "id": {
@@ -11488,33 +11577,9 @@
                                   }
                                 }
                               },
-                              "shipping_size_value": {
+                              "shipment_size": {
                                 "type": "number",
                                 "format": "float"
-                              },
-                              "current_status": {
-                                "type": "string",
-                                "enum": [
-                                  "Pending",
-                                  "Processing",
-                                  "Ready for Pickup",
-                                  "Out for Delivery",
-                                  "In Transit",
-                                  "Delivered",
-                                  "Cancelled",
-                                  "Delayed"
-                                ]
-                              },
-                              "current_location": {
-                                "type": "object",
-                                "properties": {
-                                  "id": {
-                                    "type": "number"
-                                  },
-                                  "documentId": {
-                                    "type": "string"
-                                  }
-                                }
                               },
                               "shipment_note": {
                                 "type": "string"
@@ -11532,13 +11597,6 @@
                                     }
                                   }
                                 }
-                              },
-                              "deliveredAt": {
-                                "type": "string",
-                                "format": "date-time"
-                              },
-                              "tracking_code": {
-                                "type": "string"
                               },
                               "createdAt": {
                                 "type": "string",
@@ -11975,11 +12033,13 @@
               "receiver_phone",
               "receiver_city",
               "receiver_country",
-              "is_pickup",
-              "current_status"
+              "is_pickup"
             ],
             "type": "object",
             "properties": {
+              "tracking_code": {
+                "type": "string"
+              },
               "receiver_name": {
                 "type": "string"
               },
@@ -12046,7 +12106,7 @@
                 ],
                 "example": "string or id"
               },
-              "shipping_size": {
+              "shipment_metric": {
                 "oneOf": [
                   {
                     "type": "integer"
@@ -12057,33 +12117,9 @@
                 ],
                 "example": "string or id"
               },
-              "shipping_size_value": {
+              "shipment_size": {
                 "type": "number",
                 "format": "float"
-              },
-              "current_status": {
-                "type": "string",
-                "enum": [
-                  "Pending",
-                  "Processing",
-                  "Ready for Pickup",
-                  "Out for Delivery",
-                  "In Transit",
-                  "Delivered",
-                  "Cancelled",
-                  "Delayed"
-                ]
-              },
-              "current_location": {
-                "oneOf": [
-                  {
-                    "type": "integer"
-                  },
-                  {
-                    "type": "string"
-                  }
-                ],
-                "example": "string or id"
               },
               "shipment_note": {
                 "type": "string"
@@ -12101,13 +12137,6 @@
                   ],
                   "example": "string or id"
                 }
-              },
-              "deliveredAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "tracking_code": {
-                "type": "string"
               },
               "locale": {
                 "type": "string"
@@ -12172,14 +12201,16 @@
           "receiver_phone",
           "receiver_city",
           "receiver_country",
-          "is_pickup",
-          "current_status"
+          "is_pickup"
         ],
         "properties": {
           "id": {
             "type": "number"
           },
           "documentId": {
+            "type": "string"
+          },
+          "tracking_code": {
             "type": "string"
           },
           "receiver_name": {
@@ -12250,6 +12281,9 @@
                           "type": "number"
                         },
                         "documentId": {
+                          "type": "string"
+                        },
+                        "tracking_code": {
                           "type": "string"
                         },
                         "receiver_name": {
@@ -13245,7 +13279,7 @@
                             }
                           }
                         },
-                        "shipping_size": {
+                        "shipment_metric": {
                           "type": "object",
                           "properties": {
                             "id": {
@@ -13256,33 +13290,9 @@
                             }
                           }
                         },
-                        "shipping_size_value": {
+                        "shipment_size": {
                           "type": "number",
                           "format": "float"
-                        },
-                        "current_status": {
-                          "type": "string",
-                          "enum": [
-                            "Pending",
-                            "Processing",
-                            "Ready for Pickup",
-                            "Out for Delivery",
-                            "In Transit",
-                            "Delivered",
-                            "Cancelled",
-                            "Delayed"
-                          ]
-                        },
-                        "current_location": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number"
-                            },
-                            "documentId": {
-                              "type": "string"
-                            }
-                          }
                         },
                         "shipment_note": {
                           "type": "string"
@@ -13300,13 +13310,6 @@
                               }
                             }
                           }
-                        },
-                        "deliveredAt": {
-                          "type": "string",
-                          "format": "date-time"
-                        },
-                        "tracking_code": {
-                          "type": "string"
                         },
                         "createdAt": {
                           "type": "string",
@@ -13456,20 +13459,6 @@
                   }
                 }
               },
-              "shipments": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "number"
-                    },
-                    "documentId": {
-                      "type": "string"
-                    }
-                  }
-                }
-              },
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -13559,7 +13548,7 @@
               }
             }
           },
-          "shipping_size": {
+          "shipment_metric": {
             "type": "object",
             "properties": {
               "id": {
@@ -13570,33 +13559,9 @@
               }
             }
           },
-          "shipping_size_value": {
+          "shipment_size": {
             "type": "number",
             "format": "float"
-          },
-          "current_status": {
-            "type": "string",
-            "enum": [
-              "Pending",
-              "Processing",
-              "Ready for Pickup",
-              "Out for Delivery",
-              "In Transit",
-              "Delivered",
-              "Cancelled",
-              "Delayed"
-            ]
-          },
-          "current_location": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "number"
-              },
-              "documentId": {
-                "type": "string"
-              }
-            }
           },
           "shipment_note": {
             "type": "string"
@@ -13614,13 +13579,6 @@
                 }
               }
             }
-          },
-          "deliveredAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "tracking_code": {
-            "type": "string"
           },
           "createdAt": {
             "type": "string",
@@ -13813,6 +13771,9 @@
                 "type": "number"
               },
               "documentId": {
+                "type": "string"
+              },
+              "tracking_code": {
                 "type": "string"
               },
               "receiver_name": {
@@ -14221,20 +14182,6 @@
                     }
                   },
                   "shipment_pickup_centers": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number"
-                        },
-                        "documentId": {
-                          "type": "string"
-                        }
-                      }
-                    }
-                  },
-                  "shipments": {
                     "type": "array",
                     "items": {
                       "type": "object",
@@ -15012,7 +14959,7 @@
                   }
                 }
               },
-              "shipping_size": {
+              "shipment_metric": {
                 "type": "object",
                 "properties": {
                   "id": {
@@ -15023,33 +14970,9 @@
                   }
                 }
               },
-              "shipping_size_value": {
+              "shipment_size": {
                 "type": "number",
                 "format": "float"
-              },
-              "current_status": {
-                "type": "string",
-                "enum": [
-                  "Pending",
-                  "Processing",
-                  "Ready for Pickup",
-                  "Out for Delivery",
-                  "In Transit",
-                  "Delivered",
-                  "Cancelled",
-                  "Delayed"
-                ]
-              },
-              "current_location": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "number"
-                  },
-                  "documentId": {
-                    "type": "string"
-                  }
-                }
               },
               "shipment_note": {
                 "type": "string"
@@ -15067,13 +14990,6 @@
                     }
                   }
                 }
-              },
-              "deliveredAt": {
-                "type": "string",
-                "format": "date-time"
-              },
-              "tracking_code": {
-                "type": "string"
               },
               "createdAt": {
                 "type": "string",
@@ -15284,20 +15200,6 @@
                   "example": "string or id"
                 }
               },
-              "shipments": {
-                "type": "array",
-                "items": {
-                  "oneOf": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "string"
-                    }
-                  ],
-                  "example": "string or id"
-                }
-              },
               "locale": {
                 "type": "string"
               },
@@ -15411,6 +15313,9 @@
                     "documentId": {
                       "type": "string"
                     },
+                    "tracking_code": {
+                      "type": "string"
+                    },
                     "receiver_name": {
                       "type": "string"
                     },
@@ -15476,20 +15381,6 @@
                           }
                         },
                         "shipment_pickup_centers": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "documentId": {
-                                "type": "string"
-                              }
-                            }
-                          }
-                        },
-                        "shipments": {
                           "type": "array",
                           "items": {
                             "type": "object",
@@ -16519,7 +16410,7 @@
                         }
                       }
                     },
-                    "shipping_size": {
+                    "shipment_metric": {
                       "type": "object",
                       "properties": {
                         "id": {
@@ -16530,33 +16421,9 @@
                         }
                       }
                     },
-                    "shipping_size_value": {
+                    "shipment_size": {
                       "type": "number",
                       "format": "float"
-                    },
-                    "current_status": {
-                      "type": "string",
-                      "enum": [
-                        "Pending",
-                        "Processing",
-                        "Ready for Pickup",
-                        "Out for Delivery",
-                        "In Transit",
-                        "Delivered",
-                        "Cancelled",
-                        "Delayed"
-                      ]
-                    },
-                    "current_location": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number"
-                        },
-                        "documentId": {
-                          "type": "string"
-                        }
-                      }
                     },
                     "shipment_note": {
                       "type": "string"
@@ -16574,13 +16441,6 @@
                           }
                         }
                       }
-                    },
-                    "deliveredAt": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "tracking_code": {
-                      "type": "string"
                     },
                     "createdAt": {
                       "type": "string",
@@ -16730,20 +16590,6 @@
               }
             }
           },
-          "shipments": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "number"
-                },
-                "documentId": {
-                  "type": "string"
-                }
-              }
-            }
-          },
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -16818,6 +16664,7 @@
             "required": [
               "city",
               "country",
+              "currency",
               "code"
             ],
             "type": "object",
@@ -16931,6 +16778,7 @@
         "required": [
           "city",
           "country",
+          "currency",
           "code"
         ],
         "properties": {
@@ -17386,6 +17234,9 @@
                                     "documentId": {
                                       "type": "string"
                                     },
+                                    "tracking_code": {
+                                      "type": "string"
+                                    },
                                     "receiver_name": {
                                       "type": "string"
                                     },
@@ -17540,20 +17391,6 @@
                                           }
                                         },
                                         "shipment_pickup_centers": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "id": {
-                                                "type": "number"
-                                              },
-                                              "documentId": {
-                                                "type": "string"
-                                              }
-                                            }
-                                          }
-                                        },
-                                        "shipments": {
                                           "type": "array",
                                           "items": {
                                             "type": "object",
@@ -17741,7 +17578,7 @@
                                         }
                                       }
                                     },
-                                    "shipping_size": {
+                                    "shipment_metric": {
                                       "type": "object",
                                       "properties": {
                                         "id": {
@@ -17846,33 +17683,9 @@
                                         }
                                       }
                                     },
-                                    "shipping_size_value": {
+                                    "shipment_size": {
                                       "type": "number",
                                       "format": "float"
-                                    },
-                                    "current_status": {
-                                      "type": "string",
-                                      "enum": [
-                                        "Pending",
-                                        "Processing",
-                                        "Ready for Pickup",
-                                        "Out for Delivery",
-                                        "In Transit",
-                                        "Delivered",
-                                        "Cancelled",
-                                        "Delayed"
-                                      ]
-                                    },
-                                    "current_location": {
-                                      "type": "object",
-                                      "properties": {
-                                        "id": {
-                                          "type": "number"
-                                        },
-                                        "documentId": {
-                                          "type": "string"
-                                        }
-                                      }
                                     },
                                     "shipment_note": {
                                       "type": "string"
@@ -17890,13 +17703,6 @@
                                           }
                                         }
                                       }
-                                    },
-                                    "deliveredAt": {
-                                      "type": "string",
-                                      "format": "date-time"
-                                    },
-                                    "tracking_code": {
-                                      "type": "string"
                                     },
                                     "createdAt": {
                                       "type": "string",
@@ -18534,6 +18340,9 @@
                           "documentId": {
                             "type": "string"
                           },
+                          "tracking_code": {
+                            "type": "string"
+                          },
                           "receiver_name": {
                             "type": "string"
                           },
@@ -18940,20 +18749,6 @@
                                 }
                               },
                               "shipment_pickup_centers": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "id": {
-                                      "type": "number"
-                                    },
-                                    "documentId": {
-                                      "type": "string"
-                                    }
-                                  }
-                                }
-                              },
-                              "shipments": {
                                 "type": "array",
                                 "items": {
                                   "type": "object",
@@ -19416,7 +19211,7 @@
                               }
                             }
                           },
-                          "shipping_size": {
+                          "shipment_metric": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -19521,33 +19316,9 @@
                               }
                             }
                           },
-                          "shipping_size_value": {
+                          "shipment_size": {
                             "type": "number",
                             "format": "float"
-                          },
-                          "current_status": {
-                            "type": "string",
-                            "enum": [
-                              "Pending",
-                              "Processing",
-                              "Ready for Pickup",
-                              "Out for Delivery",
-                              "In Transit",
-                              "Delivered",
-                              "Cancelled",
-                              "Delayed"
-                            ]
-                          },
-                          "current_location": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "documentId": {
-                                "type": "string"
-                              }
-                            }
                           },
                           "shipment_note": {
                             "type": "string"
@@ -19565,13 +19336,6 @@
                                 }
                               }
                             }
-                          },
-                          "deliveredAt": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "tracking_code": {
-                            "type": "string"
                           },
                           "createdAt": {
                             "type": "string",
@@ -20070,6 +19834,9 @@
                           "documentId": {
                             "type": "string"
                           },
+                          "tracking_code": {
+                            "type": "string"
+                          },
                           "receiver_name": {
                             "type": "string"
                           },
@@ -20476,20 +20243,6 @@
                                 }
                               },
                               "shipment_pickup_centers": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "id": {
-                                      "type": "number"
-                                    },
-                                    "documentId": {
-                                      "type": "string"
-                                    }
-                                  }
-                                }
-                              },
-                              "shipments": {
                                 "type": "array",
                                 "items": {
                                   "type": "object",
@@ -20952,7 +20705,7 @@
                               }
                             }
                           },
-                          "shipping_size": {
+                          "shipment_metric": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -21057,33 +20810,9 @@
                               }
                             }
                           },
-                          "shipping_size_value": {
+                          "shipment_size": {
                             "type": "number",
                             "format": "float"
-                          },
-                          "current_status": {
-                            "type": "string",
-                            "enum": [
-                              "Pending",
-                              "Processing",
-                              "Ready for Pickup",
-                              "Out for Delivery",
-                              "In Transit",
-                              "Delivered",
-                              "Cancelled",
-                              "Delayed"
-                            ]
-                          },
-                          "current_location": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "documentId": {
-                                "type": "string"
-                              }
-                            }
                           },
                           "shipment_note": {
                             "type": "string"
@@ -21101,13 +20830,6 @@
                                 }
                               }
                             }
-                          },
-                          "deliveredAt": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "tracking_code": {
-                            "type": "string"
                           },
                           "createdAt": {
                             "type": "string",
@@ -21615,6 +21337,9 @@
                           "documentId": {
                             "type": "string"
                           },
+                          "tracking_code": {
+                            "type": "string"
+                          },
                           "receiver_name": {
                             "type": "string"
                           },
@@ -22021,20 +21746,6 @@
                                 }
                               },
                               "shipment_pickup_centers": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "id": {
-                                      "type": "number"
-                                    },
-                                    "documentId": {
-                                      "type": "string"
-                                    }
-                                  }
-                                }
-                              },
-                              "shipments": {
                                 "type": "array",
                                 "items": {
                                   "type": "object",
@@ -22497,7 +22208,7 @@
                               }
                             }
                           },
-                          "shipping_size": {
+                          "shipment_metric": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -22602,33 +22313,9 @@
                               }
                             }
                           },
-                          "shipping_size_value": {
+                          "shipment_size": {
                             "type": "number",
                             "format": "float"
-                          },
-                          "current_status": {
-                            "type": "string",
-                            "enum": [
-                              "Pending",
-                              "Processing",
-                              "Ready for Pickup",
-                              "Out for Delivery",
-                              "In Transit",
-                              "Delivered",
-                              "Cancelled",
-                              "Delayed"
-                            ]
-                          },
-                          "current_location": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "documentId": {
-                                "type": "string"
-                              }
-                            }
                           },
                           "shipment_note": {
                             "type": "string"
@@ -22646,13 +22333,6 @@
                                 }
                               }
                             }
-                          },
-                          "deliveredAt": {
-                            "type": "string",
-                            "format": "date-time"
-                          },
-                          "tracking_code": {
-                            "type": "string"
                           },
                           "createdAt": {
                             "type": "string",

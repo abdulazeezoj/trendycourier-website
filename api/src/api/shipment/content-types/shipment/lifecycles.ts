@@ -1,4 +1,6 @@
 import { type Event } from "@strapi/database/dist/lifecycles";
+import { errors } from "@strapi/utils";
+import { getSetRelationId } from "../../../../utils/helpers";
 
 export default {
   async beforeCreate(event: Event) {
@@ -8,14 +10,16 @@ export default {
     if (data.publishedAt) return;
 
     const isPickup = data.hasOwnProperty("is_pickup") ? data.is_pickup : false;
-    const getId = (rel: any) => rel?.connect?.[0]?.id;
 
     // Delivery / Pickup Validation
     if (isPickup) {
-      const pickupCenterId = getId(data.pickup_center);
+      const [pickupCenterId] = getSetRelationId(data.pickup_center);
+
       if (!pickupCenterId) {
         strapi.log.error("Pickup center is required for pickup shipments.");
-        throw new Error("Pickup center is required for pickup shipments.");
+        throw new errors.ValidationError(
+          "Pickup center is required for pickup shipments."
+        );
       }
 
       const pickupCenter = await strapi
@@ -24,17 +28,14 @@ export default {
 
       if (!pickupCenter) {
         strapi.log.error("Pickup center not found.");
-        throw new Error("Pickup center not found.");
+        throw new errors.NotFoundError("Pickup center not found.");
       }
       if (pickupCenter.type !== "delivery") {
         strapi.log.error("Pickup center must be of type 'delivery'.");
-        throw new Error("Pickup center must be of type 'delivery'.");
+        throw new errors.ValidationError(
+          "Pickup center must be of type 'delivery'."
+        );
       }
-
-      // // Clear delivery address fields
-      // data.receiver_address = null;
-      // data.receiver_city = null;
-      // data.receiver_country = null;
     } else {
       if (
         !data.receiver_address ||
@@ -83,9 +84,7 @@ export default {
     // Skip second invocation (Draft & Publish)
     if (data.publishedAt) return;
 
-    const getId = (rel: any) => rel?.connect?.[0]?.id;
-
-    const pickupCenterId = getId(data.pickup_center);
+    const [pickupCenterId] = getSetRelationId(data.pickup_center);
 
     const receiverPhone = data.receiver_phone;
     const receiverName = data.receiver_name;
@@ -111,6 +110,7 @@ export default {
         const pickupCenter = await strapi
           .documents("api::shipment-location.shipment-location")
           .findFirst({ filters: { id: pickupCenterId } });
+
         if (pickupCenter) {
           pickupCenterName = pickupCenter.name || "";
           pickupCenterCity = pickupCenter.city || "";
@@ -125,6 +125,7 @@ export default {
         pickupCenterCity,
         pickupCenterCountry,
       };
+
       emailTemplate = `<p>Hello {{name}},</p><p>Your package is on the way!</p><p><strong>Tracking code:</strong> {{trackingCode}}</p><p><strong>Pickup center:</strong> {{pickupCenterName}}, {{pickupCenterCity}}, {{pickupCenterCountry}}</p>`;
       emailData = smsData;
     } else {

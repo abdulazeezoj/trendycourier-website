@@ -10,6 +10,16 @@ const customRoutes = {
         middlewares: [],
       },
     },
+    {
+      method: "POST",
+      path: "/shipments/bulk",
+      handler: "api::shipment.shipment.createBulk",
+      config: {
+        auth: false,
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };
 
@@ -216,6 +226,128 @@ const shipmentDocs = {
                       timestamp: "2024-06-01T08:00:00Z",
                     },
                   ],
+                },
+              },
+            },
+          },
+          default: {
+            description: "Error",
+            content: {
+              "application/json": {
+                schema: {
+                  $ref: "#/components/schemas/Error",
+                },
+              },
+            },
+          },
+        },
+        tags: ["Shipment"],
+      },
+    },
+    "/shipments/bulk": {
+      post: {
+        operationId: "post/shipments/bulk",
+        summary: "Create bulk shipments",
+        description: "",
+        requestBody: {
+          description: "Upload file",
+          required: true,
+          content: {
+            "multipart/form-data": {
+              schema: {
+                required: ["file"],
+                type: "object",
+                properties: {
+                  file: {
+                    type: "string",
+                    format: "binary",
+                    description: "Excel file containing shipment data",
+                  },
+                },
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: "Successful response",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      tracking_code: { type: "string" },
+                      shipping_origin: {
+                        type: "object",
+                        properties: {
+                          city: { type: "string" },
+                          country: { type: "string" },
+                        },
+                        required: ["city", "country"],
+                      },
+                      shipping_destination: {
+                        type: "object",
+                        properties: {
+                          city: { type: "string" },
+                          country: { type: "string" },
+                        },
+                        required: ["city", "country"],
+                      },
+                      receiver: {
+                        type: "object",
+                        properties: {
+                          address: { type: "string" },
+                          city: { type: "string" },
+                          country: { type: "string" },
+                          name: { type: "string" },
+                          phone: { type: "string" },
+                          email: { type: "string" },
+                        },
+                        required: [
+                          "address",
+                          "city",
+                          "country",
+                          "name",
+                          "phone",
+                          "email",
+                        ],
+                      },
+                      is_pickup: { type: "boolean" },
+                      pickup_center: {
+                        type: "object",
+                        properties: {
+                          name: { type: "string" },
+                          city: { type: "string" },
+                          country: { type: "string" },
+                          type: { type: "string" },
+                        },
+                        required: ["name", "city", "country", "type"],
+                      },
+                      current_status: { type: "string" },
+                      current_location: {
+                        type: "object",
+                        properties: {
+                          name: { type: "string" },
+                          city: { type: "string" },
+                          country: { type: "string" },
+                          type: { type: "string" },
+                        },
+                        required: ["name", "city", "country", "type"],
+                      },
+                    },
+                    required: [
+                      "tracking_code",
+                      "shipping_origin",
+                      "shipping_destination",
+                      "receiver",
+                      "is_pickup",
+                      "pickup_center",
+                      "current_status",
+                      "current_location",
+                    ],
+                  },
                 },
               },
             },
