@@ -646,28 +646,32 @@ export interface ApiShipmentShipment extends Struct.CollectionTypeSchema {
     receiver_email: Schema.Attribute.Email;
     receiver_name: Schema.Attribute.String & Schema.Attribute.Required;
     receiver_phone: Schema.Attribute.String & Schema.Attribute.Required;
+    shipment_destination: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-destination.shipping-destination'
+    > &
+      Schema.Attribute.Required;
     shipment_events: Schema.Attribute.Relation<
       'oneToMany',
       'api::shipment-event.shipment-event'
     >;
+    shipment_method: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::shipping-method.shipping-method'
+    > &
+      Schema.Attribute.Required;
     shipment_metric: Schema.Attribute.Relation<
       'manyToOne',
       'api::shipping-size.shipping-size'
-    >;
+    > &
+      Schema.Attribute.Required;
     shipment_note: Schema.Attribute.Text;
-    shipment_size: Schema.Attribute.Decimal;
-    shipping_destination: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::shipping-destination.shipping-destination'
-    >;
-    shipping_method: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::shipping-method.shipping-method'
-    >;
-    shipping_origin: Schema.Attribute.Relation<
+    shipment_origin: Schema.Attribute.Relation<
       'manyToOne',
       'api::shipping-origin.shipping-origin'
-    >;
+    > &
+      Schema.Attribute.Required;
+    shipment_size: Schema.Attribute.Decimal;
     tracking_code: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

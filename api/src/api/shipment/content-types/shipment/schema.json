@@ -47,29 +47,33 @@
       "default": true,
       "required": true
     },
-    "shipping_origin": {
+    "shipment_origin": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::shipping-origin.shipping-origin",
-      "inversedBy": "shipments"
+      "inversedBy": "shipments",
+      "required": true
     },
-    "shipping_destination": {
+    "shipment_destination": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::shipping-destination.shipping-destination",
-      "inversedBy": "shipments"
+      "inversedBy": "shipments",
+      "required": true
     },
-    "shipping_method": {
+    "shipment_method": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::shipping-method.shipping-method",
-      "inversedBy": "shipments"
+      "inversedBy": "shipments",
+      "required": true
     },
     "shipment_metric": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::shipping-size.shipping-size",
-      "inversedBy": "shipments"
+      "inversedBy": "shipments",
+      "required": true
     },
     "shipment_size": {
       "type": "decimal"

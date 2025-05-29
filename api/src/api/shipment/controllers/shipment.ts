@@ -63,8 +63,8 @@ export default factories.createCoreController(
         return ctx.badRequest("Excel file has no sheets");
       }
 
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
+      // Read the first sheet
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const rows = xlsx.utils.sheet_to_json(worksheet);
 
       if (!Array.isArray(rows) || rows.length === 0) {
@@ -89,9 +89,9 @@ export default factories.createCoreController(
                   receiver_address: shipmentData.receiver_address,
                   receiver_city: shipmentData.receiver_city,
                   receiver_country: shipmentData.receiver_country,
-                  shipping_origin: shipmentData.shipping_origin,
-                  shipping_destination: shipmentData.shipping_destination,
-                  shipping_method: shipmentData.shipping_method,
+                  shipment_origin: shipmentData.shipment_origin,
+                  shipment_destination: shipmentData.shipment_destination,
+                  shipment_method: shipmentData.shipment_method,
                   shipment_metric: shipmentData.shipment_metric,
                   shipment_size: shipmentData.shipment_size,
                   shipment_note: shipmentData.shipment_note,
@@ -99,6 +99,12 @@ export default factories.createCoreController(
                   pickup_center: shipmentData?.pickup_center,
                 },
                 status: "published",
+                populate: {
+                  shipment_origin: true,
+                  shipment_destination: true,
+                  shipment_method: true,
+                  shipment_metric: true,
+                },
               });
 
             createdShipments.push(created);
@@ -108,11 +114,65 @@ export default factories.createCoreController(
           }
         }
         ctx.body = {
-          count: createdShipments.length,
-          data: createdShipments,
+          data: {
+            count: createdShipments.length,
+            items: createdShipments.map((shipment) => ({
+              id: shipment.id,
+              documentId: shipment.documentId,
+              tracking_code: shipment.tracking_code,
+              receiver_name: shipment.receiver_name,
+              receiver_phone: shipment.receiver_phone,
+              receiver_email: shipment.receiver_email,
+              receiver_address: shipment.receiver_address,
+              receiver_city: shipment.receiver_city,
+              receiver_country: shipment.receiver_country,
+              shipment_note: shipment.shipment_note,
+              is_pickup: shipment.is_pickup,
+              shipment_size: shipment.shipment_size,
+              shipment_metric: {
+                id: shipment.shipment_metric.id,
+                documentId: shipment.shipment_metric.documentId,
+                name: shipment.shipment_metric.name,
+                unit: shipment.shipment_metric.unit,
+                description: shipment.shipment_metric.description,
+              },
+              shipment_origin: {
+                id: shipment.shipment_origin.id,
+                documentId: shipment.shipment_origin.documentId,
+                code: shipment.shipment_origin.code,
+                city: shipment.shipment_origin.city,
+                country: shipment.shipment_origin.country,
+              },
+              shipment_destination: {
+                id: shipment.shipment_destination.id,
+                documentId: shipment.shipment_destination.documentId,
+                code: shipment.shipment_destination.code,
+                city: shipment.shipment_destination.city,
+                country: shipment.shipment_destination.country,
+              },
+              shipment_method: {
+                id: shipment.shipment_method.id,
+                code: shipment.shipment_method.code,
+                name: shipment.shipment_method.name,
+              },
+              pickup_center: {
+                id: shipment.pickup_center?.id,
+                documentId: shipment.pickup_center?.documentId,
+                name: shipment.pickup_center?.name,
+                code: shipment.pickup_center?.code,
+                city: shipment.pickup_center?.city,
+                country: shipment.pickup_center?.country,
+                type: shipment.pickup_center?.type,
+              },
+              createdAt: shipment.createdAt,
+              updatedAt: shipment.updatedAt,
+            })),
+          },
         };
         ctx.status = 201;
       } catch (err: any) {
+        strapi.log.error("Error creating shipments from Excel file", err);
+
         return ctx.internalServerError(
           "Failed to create shipments from Excel file"
         );

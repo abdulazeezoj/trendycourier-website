@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-05-27T20:51:15.505Z"
+    "x-generation-date": "2025-05-29T09:28:46.557Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -7261,136 +7261,108 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "tracking_code": {
-                        "type": "string"
-                      },
-                      "shipping_origin": {
-                        "type": "object",
-                        "properties": {
-                          "city": {
-                            "type": "string"
-                          },
-                          "country": {
-                            "type": "string"
-                          }
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "integer"
                         },
-                        "required": [
-                          "city",
-                          "country"
-                        ]
-                      },
-                      "shipping_destination": {
-                        "type": "object",
-                        "properties": {
-                          "city": {
-                            "type": "string"
-                          },
-                          "country": {
-                            "type": "string"
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              },
+                              "tracking_code": {
+                                "type": "string"
+                              },
+                              "receiver_name": {
+                                "type": "string"
+                              },
+                              "receiver_phone": {
+                                "type": "string"
+                              },
+                              "receiver_email": {
+                                "type": "string"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "publishedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "locale": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "shipment_note": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "receiver_city": {
+                                "type": "string"
+                              },
+                              "receiver_country": {
+                                "type": "string"
+                              },
+                              "receiver_address": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "is_pickup": {
+                                "type": "boolean"
+                              },
+                              "shipment_size": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "documentId",
+                              "tracking_code",
+                              "receiver_name",
+                              "receiver_phone",
+                              "receiver_email",
+                              "createdAt",
+                              "updatedAt",
+                              "publishedAt",
+                              "locale",
+                              "shipment_note",
+                              "receiver_city",
+                              "receiver_country",
+                              "receiver_address",
+                              "is_pickup",
+                              "shipment_size"
+                            ]
                           }
-                        },
-                        "required": [
-                          "city",
-                          "country"
-                        ]
+                        }
                       },
-                      "receiver": {
-                        "type": "object",
-                        "properties": {
-                          "address": {
-                            "type": "string"
-                          },
-                          "city": {
-                            "type": "string"
-                          },
-                          "country": {
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "phone": {
-                            "type": "string"
-                          },
-                          "email": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "address",
-                          "city",
-                          "country",
-                          "name",
-                          "phone",
-                          "email"
-                        ]
-                      },
-                      "is_pickup": {
-                        "type": "boolean"
-                      },
-                      "pickup_center": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "city": {
-                            "type": "string"
-                          },
-                          "country": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "city",
-                          "country",
-                          "type"
-                        ]
-                      },
-                      "current_status": {
-                        "type": "string"
-                      },
-                      "current_location": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "city": {
-                            "type": "string"
-                          },
-                          "country": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "city",
-                          "country",
-                          "type"
-                        ]
-                      }
+                      "required": [
+                        "count",
+                        "items"
+                      ]
                     },
                     "required": [
-                      "tracking_code",
-                      "shipping_origin",
-                      "shipping_destination",
-                      "receiver",
-                      "is_pickup",
-                      "pickup_center",
-                      "current_status",
-                      "current_location"
+                      "data"
                     ]
                   }
                 }
@@ -7410,6 +7382,171 @@
         },
         "tags": [
           "Shipment"
+        ]
+      }
+    },
+    "/shipment-events/bulk": {
+      "post": {
+        "operationId": "post/shipment-events/bulk",
+        "summary": "Create bulk shipment events",
+        "description": "",
+        "requestBody": {
+          "description": "Upload file",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Excel file containing shipment event data"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "integer"
+                        },
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              },
+                              "shipment_status": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              },
+                              "shipment": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "documentId": {
+                                    "type": "string"
+                                  },
+                                  "tracking_code": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "documentId",
+                                  "tracking_code"
+                                ]
+                              },
+                              "shipment_location": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "documentId": {
+                                    "type": "string"
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "code": {
+                                    "type": "string"
+                                  },
+                                  "city": {
+                                    "type": "string"
+                                  },
+                                  "country": {
+                                    "type": "string"
+                                  },
+                                  "type": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "documentId",
+                                  "name",
+                                  "code",
+                                  "city",
+                                  "country",
+                                  "type"
+                                ]
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "documentId",
+                              "shipment_status",
+                              "message",
+                              "shipment",
+                              "shipment_location",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "items"
+                      ]
+                    },
+                    "required": [
+                      "data"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Shipment-event"
         ]
       }
     }
@@ -8198,7 +8335,7 @@
                                           "is_pickup": {
                                             "type": "boolean"
                                           },
-                                          "shipping_origin": {
+                                          "shipment_origin": {
                                             "type": "object",
                                             "properties": {
                                               "id": {
@@ -8209,7 +8346,7 @@
                                               }
                                             }
                                           },
-                                          "shipping_destination": {
+                                          "shipment_destination": {
                                             "type": "object",
                                             "properties": {
                                               "id": {
@@ -8220,7 +8357,7 @@
                                               }
                                             }
                                           },
-                                          "shipping_method": {
+                                          "shipment_method": {
                                             "type": "object",
                                             "properties": {
                                               "id": {
@@ -9745,7 +9882,7 @@
                                     "is_pickup": {
                                       "type": "boolean"
                                     },
-                                    "shipping_origin": {
+                                    "shipment_origin": {
                                       "type": "object",
                                       "properties": {
                                         "id": {
@@ -9756,7 +9893,7 @@
                                         }
                                       }
                                     },
-                                    "shipping_destination": {
+                                    "shipment_destination": {
                                       "type": "object",
                                       "properties": {
                                         "id": {
@@ -9767,7 +9904,7 @@
                                         }
                                       }
                                     },
-                                    "shipping_method": {
+                                    "shipment_method": {
                                       "type": "object",
                                       "properties": {
                                         "id": {
@@ -11354,7 +11491,7 @@
                               "is_pickup": {
                                 "type": "boolean"
                               },
-                              "shipping_origin": {
+                              "shipment_origin": {
                                 "type": "object",
                                 "properties": {
                                   "id": {
@@ -11365,7 +11502,7 @@
                                   }
                                 }
                               },
-                              "shipping_destination": {
+                              "shipment_destination": {
                                 "type": "object",
                                 "properties": {
                                   "id": {
@@ -11376,7 +11513,7 @@
                                   }
                                 }
                               },
-                              "shipping_method": {
+                              "shipment_method": {
                                 "type": "object",
                                 "properties": {
                                   "id": {
@@ -12033,7 +12170,11 @@
               "receiver_phone",
               "receiver_city",
               "receiver_country",
-              "is_pickup"
+              "is_pickup",
+              "shipment_origin",
+              "shipment_destination",
+              "shipment_method",
+              "shipment_metric"
             ],
             "type": "object",
             "properties": {
@@ -12073,7 +12214,7 @@
               "is_pickup": {
                 "type": "boolean"
               },
-              "shipping_origin": {
+              "shipment_origin": {
                 "oneOf": [
                   {
                     "type": "integer"
@@ -12084,7 +12225,7 @@
                 ],
                 "example": "string or id"
               },
-              "shipping_destination": {
+              "shipment_destination": {
                 "oneOf": [
                   {
                     "type": "integer"
@@ -12095,7 +12236,7 @@
                 ],
                 "example": "string or id"
               },
-              "shipping_method": {
+              "shipment_method": {
                 "oneOf": [
                   {
                     "type": "integer"
@@ -12201,7 +12342,11 @@
           "receiver_phone",
           "receiver_city",
           "receiver_country",
-          "is_pickup"
+          "is_pickup",
+          "shipment_origin",
+          "shipment_destination",
+          "shipment_method",
+          "shipment_metric"
         ],
         "properties": {
           "id": {
@@ -12319,7 +12464,7 @@
                         "is_pickup": {
                           "type": "boolean"
                         },
-                        "shipping_origin": {
+                        "shipment_origin": {
                           "type": "object",
                           "properties": {
                             "id": {
@@ -13257,7 +13402,7 @@
                             }
                           }
                         },
-                        "shipping_destination": {
+                        "shipment_destination": {
                           "type": "object",
                           "properties": {
                             "id": {
@@ -13268,7 +13413,7 @@
                             }
                           }
                         },
-                        "shipping_method": {
+                        "shipment_method": {
                           "type": "object",
                           "properties": {
                             "id": {
@@ -13515,7 +13660,7 @@
           "is_pickup": {
             "type": "boolean"
           },
-          "shipping_origin": {
+          "shipment_origin": {
             "type": "object",
             "properties": {
               "id": {
@@ -13526,7 +13671,7 @@
               }
             }
           },
-          "shipping_destination": {
+          "shipment_destination": {
             "type": "object",
             "properties": {
               "id": {
@@ -13537,7 +13682,7 @@
               }
             }
           },
-          "shipping_method": {
+          "shipment_method": {
             "type": "object",
             "properties": {
               "id": {
@@ -14251,7 +14396,7 @@
               "is_pickup": {
                 "type": "boolean"
               },
-              "shipping_origin": {
+              "shipment_origin": {
                 "type": "object",
                 "properties": {
                   "id": {
@@ -14937,7 +15082,7 @@
                   }
                 }
               },
-              "shipping_destination": {
+              "shipment_destination": {
                 "type": "object",
                 "properties": {
                   "id": {
@@ -14948,7 +15093,7 @@
                   }
                 }
               },
-              "shipping_method": {
+              "shipment_method": {
                 "type": "object",
                 "properties": {
                   "id": {
@@ -15702,7 +15847,7 @@
                     "is_pickup": {
                       "type": "boolean"
                     },
-                    "shipping_origin": {
+                    "shipment_origin": {
                       "type": "object",
                       "properties": {
                         "id": {
@@ -16388,7 +16533,7 @@
                         }
                       }
                     },
-                    "shipping_destination": {
+                    "shipment_destination": {
                       "type": "object",
                       "properties": {
                         "id": {
@@ -16399,7 +16544,7 @@
                         }
                       }
                     },
-                    "shipping_method": {
+                    "shipment_method": {
                       "type": "object",
                       "properties": {
                         "id": {
@@ -17460,7 +17605,7 @@
                                     "is_pickup": {
                                       "type": "boolean"
                                     },
-                                    "shipping_origin": {
+                                    "shipment_origin": {
                                       "type": "object",
                                       "properties": {
                                         "id": {
@@ -17471,7 +17616,7 @@
                                         }
                                       }
                                     },
-                                    "shipping_destination": {
+                                    "shipment_destination": {
                                       "type": "object",
                                       "properties": {
                                         "id": {
@@ -17482,7 +17627,7 @@
                                         }
                                       }
                                     },
-                                    "shipping_method": {
+                                    "shipment_method": {
                                       "type": "object",
                                       "properties": {
                                         "id": {
@@ -18818,7 +18963,7 @@
                           "is_pickup": {
                             "type": "boolean"
                           },
-                          "shipping_origin": {
+                          "shipment_origin": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -18829,7 +18974,7 @@
                               }
                             }
                           },
-                          "shipping_destination": {
+                          "shipment_destination": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -19115,7 +19260,7 @@
                               }
                             }
                           },
-                          "shipping_method": {
+                          "shipment_method": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -20312,7 +20457,7 @@
                           "is_pickup": {
                             "type": "boolean"
                           },
-                          "shipping_origin": {
+                          "shipment_origin": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -20323,7 +20468,7 @@
                               }
                             }
                           },
-                          "shipping_destination": {
+                          "shipment_destination": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -20609,7 +20754,7 @@
                               }
                             }
                           },
-                          "shipping_method": {
+                          "shipment_method": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -21815,7 +21960,7 @@
                           "is_pickup": {
                             "type": "boolean"
                           },
-                          "shipping_origin": {
+                          "shipment_origin": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -21826,7 +21971,7 @@
                               }
                             }
                           },
-                          "shipping_destination": {
+                          "shipment_destination": {
                             "type": "object",
                             "properties": {
                               "id": {
@@ -22112,7 +22257,7 @@
                               }
                             }
                           },
-                          "shipping_method": {
+                          "shipment_method": {
                             "type": "object",
                             "properties": {
                               "id": {

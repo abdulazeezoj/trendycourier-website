@@ -1,6 +1,7 @@
 import type { Core } from "@strapi/strapi";
 import { exchangeRateDocs } from "./api/exchange-rate/routes/01-custom";
 import { freightRateDocs } from "./api/freight-rate/routes/01-custom";
+import { shipmentEventDocs } from "./api/shipment-event/routes/01-custom";
 import { shipmentDocs } from "./api/shipment/routes/01-custom";
 
 export default {
@@ -21,6 +22,7 @@ export default {
             ...freightRateDocs.paths,
             ...exchangeRateDocs.paths,
             ...shipmentDocs.paths,
+            ...shipmentEventDocs.paths,
           },
         });
     }
