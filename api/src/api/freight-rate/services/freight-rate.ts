@@ -10,8 +10,8 @@ export type FreightEstimateParams = {
   from: string;
   to: string;
   method: string;
-  size: string;
-  value?: string | number;
+  metric: string;
+  size?: string | number;
 };
 
 export type FreightEstimateResult = {
@@ -30,7 +30,7 @@ export type FreightEstimateResult = {
       code: string;
       name: string;
     };
-    size: {
+    metric: {
       code: string;
       name: string;
       unit: string;
@@ -43,7 +43,7 @@ export type FreightEstimateResult = {
     clearing_fee: number;
     estimated_days: number | null;
   };
-  value?: string | number;
+  size?: string | number;
   fee: {
     shipping_fee: number;
     clearing_fee: number;
@@ -60,62 +60,62 @@ const estimate = async (
   strapi: any,
   params: FreightEstimateParams
 ): Promise<FreightEstimateResult> => {
-  const { from, to, method, size, value } = params;
+  const { from, to, method, metric, size } = params;
 
-  if (!from || !to || !method || !size) {
+  if (!from || !to || !method || !metric) {
     throw new errors.ValidationError("Missing required parameters");
   }
 
   // 1. Fetch origin
-  const [origin] = await strapi
-    .documents("api::shipping-origin.shipping-origin")
+  const [shipmentOrigin] = await strapi
+    .documents("api::shipment-origin.shipment-origin")
     .findMany({ filters: { code: from }, limit: 1 });
-  if (!origin) throw new errors.NotFoundError("Origin not found");
+  if (!shipmentOrigin) throw new errors.NotFoundError("Origin not found");
 
   // 2. Fetch destination with currency
-  const [destination] = await strapi
-    .documents("api::shipping-destination.shipping-destination")
+  const [shipmeDestination] = await strapi
+    .documents("api::shipment-destination.shipment-destination")
     .findMany({
       filters: { code: to },
       populate: ["currency"],
       limit: 1,
     });
-  if (!destination) throw new errors.NotFoundError("Destination not found");
-  if (!destination.currency)
+  if (!shipmeDestination) throw new errors.NotFoundError("Destination not found");
+  if (!shipmeDestination.currency)
     throw new errors.NotFoundError("Destination currency not found");
 
   // 3. Fetch method
-  const [shipMethod] = await strapi
-    .documents("api::shipping-method.shipping-method")
+  const [shipmentMethod] = await strapi
+    .documents("api::shipment-method.shipment-method")
     .findMany({ filters: { code: method }, limit: 1 });
-  if (!shipMethod) throw new errors.NotFoundError("Shipping method not found");
+  if (!shipmentMethod) throw new errors.NotFoundError("Shipping method not found");
 
   // 4. Fetch size
-  const [shipSize] = await strapi
-    .documents("api::shipping-size.shipping-size")
-    .findMany({ filters: { code: size }, limit: 1 });
-  if (!shipSize) throw new errors.NotFoundError("Shipping size not found");
+  const [shipmentMetric] = await strapi
+    .documents("api::shipment-metric.shipment-metric")
+    .findMany({ filters: { code: metric }, limit: 1 });
+  if (!shipmentMetric) throw new errors.NotFoundError("Shipping size not found");
 
   // 5. Fetch freight rate
   const [freightRate] = await strapi
     .documents("api::freight-rate.freight-rate")
     .findMany({
       filters: {
-        shipping_origin: { id: origin.id },
-        shipping_destination: { id: destination.id },
-        shipping_method: { id: shipMethod.id },
-        shipping_size: { id: shipSize.id },
-        active: true,
+        shipment_origin: { id: shipmentOrigin.id },
+        shipment_destination: { id: shipmeDestination.id },
+        shipment_method: { id: shipmentMethod.id },
+        shipment_metric: { id: shipmentMetric.id },
       },
       populate: {
-        shipping_method: true,
-        shipping_size: true,
-        shipping_origin: true,
-        shipping_destination: true,
+        shipment_method: true,
+        shipment_metric: true,
+        shipment_origin: true,
+        shipment_destination: true,
         currency: true,
       },
       sort: "createdAt:desc",
       limit: 1,
+      status: "published",
     });
   if (!freightRate) throw new errors.NotFoundError("Freight rate not found");
   if (!freightRate.currency)
@@ -130,12 +130,12 @@ const estimate = async (
   let totalClearingFee = 0;
 
   if (freightRate.per_unit) {
-    if (value === undefined || value === null || value === "") {
+    if (size === undefined || size === null || size === "") {
       throw new errors.ValidationError(
         "Missing required value for per-unit mode"
       );
     }
-    const parsed = Number(value);
+    const parsed = Number(size);
     if (isNaN(parsed) || parsed <= 0) {
       throw new errors.ValidationError(
         "Invalid or missing numeric value for per-unit mode"
@@ -152,7 +152,7 @@ const estimate = async (
 
   // 7. Currency conversion
   const sourceCurrency = freightRate.currency.code;
-  const destinationCurrency = destination.currency.code;
+  const destinationCurrency = shipmeDestination.currency.code;
   let convertedTotal = total;
   let convertedShippingFee = totalShippingFee;
   let convertedClearingFee = totalClearingFee;
@@ -170,25 +170,25 @@ const estimate = async (
   // 8. Final response
   return {
     origin: {
-      code: origin.code,
-      city: origin.city,
-      country: origin.country,
+      code: shipmentOrigin.code,
+      city: shipmentOrigin.city,
+      country: shipmentOrigin.country,
     },
     destination: {
-      code: destination.code,
-      city: destination.city,
-      country: destination.country,
+      code: shipmeDestination.code,
+      city: shipmeDestination.city,
+      country: shipmeDestination.country,
     },
     freight: {
       method: {
-        code: shipMethod.code,
-        name: shipMethod.name,
+        code: shipmentMethod.code,
+        name: shipmentMethod.name,
       },
-      size: {
-        code: shipSize.code,
-        name: shipSize.name,
-        unit: shipSize.unit,
-        description: shipSize?.description || null,
+      metric: {
+        code: shipmentMetric.code,
+        name: shipmentMetric.name,
+        unit: shipmentMetric.unit,
+        description: shipmentMetric?.description || null,
       },
       base_currency: sourceCurrency,
       destination_currency: destinationCurrency,
@@ -197,7 +197,7 @@ const estimate = async (
       clearing_fee: clearingFee,
       estimated_days: freightRate?.estimated_days || null,
     },
-    value,
+    size,
     fee: {
       shipping_fee: totalShippingFee,
       clearing_fee: totalClearingFee,

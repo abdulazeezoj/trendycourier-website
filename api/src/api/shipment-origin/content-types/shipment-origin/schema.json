@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipment_origins",
+  "info": {
+    "singularName": "shipment-origin",
+    "pluralName": "shipment-origins",
+    "displayName": "ShipmentOrigin",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "country": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string",
+      "unique": true
+    },
+    "freight_rates": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::freight-rate.freight-rate",
+      "mappedBy": "shipment_origin"
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "origin"
+    }
+  }
+}

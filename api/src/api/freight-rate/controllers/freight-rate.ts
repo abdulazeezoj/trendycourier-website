@@ -14,12 +14,12 @@ export default factories.createCoreController(
   "api::freight-rate.freight-rate",
   ({ strapi }) => ({
     async estimate(ctx: Context) {
-      const { from, to, method, size, value } = ctx.query;
+      const { from, to, method, metric, size } = ctx.query;
 
       try {
         const result: FreightEstimateResult = await strapi
           .service("api::freight-rate.freight-rate")
-          .estimate({ from, to, method, size, value } as FreightEstimateParams);
+          .estimate({ from, to, method, metric, size } as FreightEstimateParams);
 
         ctx.body = result;
         ctx.status = 200;

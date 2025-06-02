@@ -15,9 +15,10 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::shipment.shipment",
-      "inversedBy": "shipment_events"
+      "inversedBy": "events",
+      "required": true
     },
-    "shipment_status": {
+    "progress": {
       "type": "enumeration",
       "enum": [
         "Pending",
@@ -36,7 +37,7 @@
       "type": "text",
       "required": true
     },
-    "shipment_location": {
+    "location": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::shipment-location.shipment-location",

@@ -36,56 +36,56 @@
     "receiver_address": {
       "type": "text"
     },
-    "pickup_center": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::shipment-location.shipment-location",
-      "inversedBy": "shipment_pickup_centers"
-    },
     "is_pickup": {
       "type": "boolean",
       "default": true,
       "required": true
     },
-    "shipment_origin": {
+    "origin": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::shipping-origin.shipping-origin",
+      "target": "api::shipment-origin.shipment-origin",
       "inversedBy": "shipments",
       "required": true
     },
-    "shipment_destination": {
+    "destination": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::shipping-destination.shipping-destination",
+      "target": "api::shipment-destination.shipment-destination",
       "inversedBy": "shipments",
       "required": true
     },
-    "shipment_method": {
+    "method": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::shipping-method.shipping-method",
+      "target": "api::shipment-method.shipment-method",
       "inversedBy": "shipments",
       "required": true
     },
-    "shipment_metric": {
+    "metric": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::shipping-size.shipping-size",
+      "target": "api::shipment-metric.shipment-metric",
       "inversedBy": "shipments",
       "required": true
     },
-    "shipment_size": {
+    "size": {
       "type": "decimal"
     },
-    "shipment_note": {
+    "note": {
       "type": "text"
     },
-    "shipment_events": {
+    "events": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::shipment-event.shipment-event",
       "mappedBy": "shipment"
+    },
+    "pickup_center": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipment-location.shipment-location",
+      "inversedBy": "shipments"
     }
   }
 }

@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipment_metrics",
+  "info": {
+    "singularName": "shipment-metric",
+    "pluralName": "shipment-metrics",
+    "displayName": "ShipmentMetric",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "unit": {
+      "type": "string",
+      "required": true
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "comment": {
+      "type": "text"
+    },
+    "freight_rates": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::freight-rate.freight-rate",
+      "mappedBy": "shipment_metric"
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "metric"
+    }
+  }
+}

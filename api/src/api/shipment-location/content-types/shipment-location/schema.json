@@ -30,13 +30,8 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": [
-        "border",
-        "port",
-        "warehouse",
-        "office",
-        "delivery"
-      ]
+      "enum": ["Border", "Port", "Warehouse", "Office", "Delivery"],
+      "required": true
     },
     "shipment_events": {
       "type": "relation",
@@ -44,7 +39,7 @@
       "target": "api::shipment-event.shipment-event",
       "mappedBy": "shipment_location"
     },
-    "shipment_pickup_centers": {
+    "shipments": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::shipment.shipment",

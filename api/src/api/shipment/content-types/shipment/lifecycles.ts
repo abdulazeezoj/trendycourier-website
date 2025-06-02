@@ -30,7 +30,7 @@ export default {
         strapi.log.error("Pickup center not found.");
         throw new errors.NotFoundError("Pickup center not found.");
       }
-      if (pickupCenter.type !== "delivery") {
+      if (pickupCenter.type.toLowerCase() !== "delivery") {
         strapi.log.error("Pickup center must be of type 'delivery'.");
         throw new errors.ValidationError(
           "Pickup center must be of type 'delivery'."
@@ -74,9 +74,6 @@ export default {
     }
 
     data.tracking_code = trackingCode;
-
-    // Set initial current location to null
-    data.current_location = null;
   },
   async afterCreate(event: Event) {
     const { data } = event.params;

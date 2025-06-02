@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipment_destinations",
+  "info": {
+    "singularName": "shipment-destination",
+    "pluralName": "shipment-destinations",
+    "displayName": "ShipmentDestination",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "country": {
+      "type": "string",
+      "required": true
+    },
+    "currency": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::currency.currency",
+      "inversedBy": "shipment_destinations",
+      "required": true
+    },
+    "freight_rates": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::freight-rate.freight-rate",
+      "mappedBy": "shipment_destination"
+    },
+    "code": {
+      "type": "string",
+      "unique": true
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "destination"
+    }
+  }
+}

@@ -11,29 +11,42 @@
     "draftAndPublish": true
   },
   "attributes": {
-    "shipping_origin": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::shipping-origin.shipping-origin",
-      "inversedBy": "freight_rates"
+    "name": {
+      "type": "string",
+      "unique": true,
+      "required": true
     },
-    "shipping_destination": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::shipping-destination.shipping-destination",
-      "inversedBy": "freight_rates"
+    "code": {
+      "type": "string",
+      "unique": true
     },
-    "shipping_method": {
+    "shipment_origin": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::shipping-method.shipping-method",
-      "inversedBy": "freight_rates"
+      "target": "api::shipment-origin.shipment-origin",
+      "inversedBy": "freight_rates",
+      "required": true
     },
-    "shipping_size": {
+    "shipment_destination": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::shipping-size.shipping-size",
-      "inversedBy": "freight_rates"
+      "target": "api::shipment-destination.shipment-destination",
+      "inversedBy": "freight_rates",
+      "required": true
+    },
+    "shipment_method": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipment-method.shipment-method",
+      "inversedBy": "freight_rates",
+      "required": true
+    },
+    "shipment_metric": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::shipment-metric.shipment-metric",
+      "inversedBy": "freight_rates",
+      "required": true
     },
     "shipping_fee": {
       "type": "decimal",
@@ -50,25 +63,14 @@
     "estimated_days": {
       "type": "integer"
     },
-    "active": {
-      "type": "boolean",
-      "default": false,
-      "required": true
-    },
     "comment": {
       "type": "text"
-    },
-    "effective_from": {
-      "type": "date"
     },
     "currency": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::currency.currency",
-      "inversedBy": "freight_rates"
-    },
-    "name": {
-      "type": "string",
+      "inversedBy": "freight_rates",
       "required": true
     }
   }

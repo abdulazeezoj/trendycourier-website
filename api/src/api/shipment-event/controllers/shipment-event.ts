@@ -85,16 +85,14 @@ export default factories.createCoreController(
               .create({
                 data: {
                   shipment: shipmentEventData.shipment,
-                  shipment_status: toTitleCase(
-                    shipmentEventData.shipment_status
-                  ) as any,
+                  progress: toTitleCase(shipmentEventData.progress) as any,
                   message: shipmentEventData.message,
-                  shipment_location: shipmentEventData.shipment_location,
+                  location: shipmentEventData.location,
                 },
                 status: "published",
                 populate: {
                   shipment: true,
-                  shipment_location: true,
+                  location: true,
                 },
               });
 

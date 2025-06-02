@@ -89,21 +89,21 @@ export default factories.createCoreController(
                   receiver_address: shipmentData.receiver_address,
                   receiver_city: shipmentData.receiver_city,
                   receiver_country: shipmentData.receiver_country,
-                  shipment_origin: shipmentData.shipment_origin,
-                  shipment_destination: shipmentData.shipment_destination,
-                  shipment_method: shipmentData.shipment_method,
-                  shipment_metric: shipmentData.shipment_metric,
-                  shipment_size: shipmentData.shipment_size,
-                  shipment_note: shipmentData.shipment_note,
+                  origin: shipmentData.origin,
+                  destination: shipmentData.destination,
+                  method: shipmentData.method,
+                  metric: shipmentData.metric,
+                  size: shipmentData.size,
+                  note: shipmentData.note,
                   is_pickup: shipmentData.is_pickup === "true",
                   pickup_center: shipmentData?.pickup_center,
                 },
                 status: "published",
                 populate: {
-                  shipment_origin: true,
-                  shipment_destination: true,
-                  shipment_method: true,
-                  shipment_metric: true,
+                  origin: true,
+                  destination: true,
+                  method: true,
+                  metric: true,
                 },
               });
 
@@ -126,34 +126,34 @@ export default factories.createCoreController(
               receiver_address: shipment.receiver_address,
               receiver_city: shipment.receiver_city,
               receiver_country: shipment.receiver_country,
-              shipment_note: shipment.shipment_note,
+              note: shipment.note,
               is_pickup: shipment.is_pickup,
-              shipment_size: shipment.shipment_size,
-              shipment_metric: {
-                id: shipment.shipment_metric.id,
-                documentId: shipment.shipment_metric.documentId,
-                name: shipment.shipment_metric.name,
-                unit: shipment.shipment_metric.unit,
-                description: shipment.shipment_metric.description,
+              size: shipment.size,
+              metric: {
+                id: shipment.metric.id,
+                documentId: shipment.metric.documentId,
+                name: shipment.metric.name,
+                unit: shipment.metric.unit,
+                description: shipment.metric.description,
               },
-              shipment_origin: {
-                id: shipment.shipment_origin.id,
-                documentId: shipment.shipment_origin.documentId,
-                code: shipment.shipment_origin.code,
-                city: shipment.shipment_origin.city,
-                country: shipment.shipment_origin.country,
+              origin: {
+                id: shipment.origin.id,
+                documentId: shipment.origin.documentId,
+                code: shipment.origin.code,
+                city: shipment.origin.city,
+                country: shipment.origin.country,
               },
-              shipment_destination: {
-                id: shipment.shipment_destination.id,
-                documentId: shipment.shipment_destination.documentId,
-                code: shipment.shipment_destination.code,
-                city: shipment.shipment_destination.city,
-                country: shipment.shipment_destination.country,
+              destination: {
+                id: shipment.destination.id,
+                documentId: shipment.destination.documentId,
+                code: shipment.destination.code,
+                city: shipment.destination.city,
+                country: shipment.destination.country,
               },
-              shipment_method: {
-                id: shipment.shipment_method.id,
-                code: shipment.shipment_method.code,
-                name: shipment.shipment_method.name,
+              method: {
+                id: shipment.method.id,
+                code: shipment.method.code,
+                name: shipment.method.name,
               },
               pickup_center: {
                 id: shipment.pickup_center?.id,
@@ -189,6 +189,7 @@ export default factories.createCoreController(
         ctx.body = result;
         ctx.status = 200;
       } catch (err: any) {
+        console.error("Error tracking shipment:", err);
         if (err instanceof errors.ValidationError) {
           return ctx.badRequest(err.message);
         } else if (err instanceof errors.NotFoundError) {

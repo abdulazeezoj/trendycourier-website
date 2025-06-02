@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shipment_methods",
+  "info": {
+    "singularName": "shipment-method",
+    "pluralName": "shipment-methods",
+    "displayName": "ShipmentMethod",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "unique": true,
+      "required": true
+    },
+    "freight_rates": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::freight-rate.freight-rate",
+      "mappedBy": "shipment_method"
+    },
+    "code": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "shipments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment.shipment",
+      "mappedBy": "method"
+    }
+  }
+}

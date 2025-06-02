@@ -51,7 +51,7 @@ const shipmentDocs = {
                   type: "object",
                   properties: {
                     tracking_code: { type: "string" },
-                    shipping_origin: {
+                    origin: {
                       type: "object",
                       properties: {
                         city: { type: "string" },
@@ -59,7 +59,7 @@ const shipmentDocs = {
                       },
                       required: ["city", "country"],
                     },
-                    shipping_destination: {
+                    destination: {
                       type: "object",
                       properties: {
                         city: { type: "string" },
@@ -97,8 +97,8 @@ const shipmentDocs = {
                       },
                       required: ["name", "city", "country", "type"],
                     },
-                    current_status: { type: "string" },
-                    current_location: {
+                    progress: { type: "string" },
+                    location: {
                       type: "object",
                       properties: {
                         name: { type: "string" },
@@ -113,8 +113,8 @@ const shipmentDocs = {
                       items: {
                         type: "object",
                         properties: {
-                          shipment_status: { type: "string" },
-                          shipment_location: {
+                          progress: { type: "string" },
+                          location: {
                             type: "object",
                             properties: {
                               name: { type: "string" },
@@ -128,8 +128,8 @@ const shipmentDocs = {
                           timestamp: { type: "string", format: "date-time" },
                         },
                         required: [
-                          "shipment_status",
-                          "shipment_location",
+                          "progress",
+                          "location",
                           "message",
                           "timestamp",
                         ],
@@ -138,93 +138,13 @@ const shipmentDocs = {
                   },
                   required: [
                     "tracking_code",
-                    "shipping_origin",
-                    "shipping_destination",
+                    "origin",
+                    "destination",
                     "receiver",
                     "is_pickup",
                     "pickup_center",
-                    "current_status",
-                    "current_location",
+                    "progress",
                     "events",
-                  ],
-                },
-                example: {
-                  tracking_code: "TRK-1234-AB1T",
-                  shipping_origin: {
-                    city: "Lagos",
-                    country: "Nigeria",
-                  },
-                  shipping_destination: {
-                    city: "London",
-                    country: "United Kingdom",
-                  },
-                  receiver: {
-                    address: "123 Oxford Street",
-                    city: "London",
-                    country: "United Kingdom",
-                    name: "John Doe",
-                    phone: "+44 1234 567890",
-                    email: "john.doe@example.com",
-                  },
-                  is_pickup: false,
-                  pickup_center: {
-                    name: "Main Depot",
-                    city: "London",
-                    country: "United Kingdom",
-                    type: "delivery",
-                  },
-                  current_status: "in-transit",
-                  current_location: {
-                    name: "Heathrow Airport",
-                    city: "London",
-                    country: "United Kingdom",
-                    type: "port",
-                  },
-                  events: [
-                    {
-                      shipment_status: "in-transit",
-                      shipment_location: {
-                        name: "Heathrow Airport",
-                        city: "London",
-                        country: "United Kingdom",
-                        type: "port",
-                      },
-                      message: "Shipment arrived at Heathrow Airport.",
-                      timestamp: "2024-06-01T23:40:00Z",
-                    },
-                    {
-                      shipment_status: "in-transit",
-                      shipment_location: {
-                        name: "Lagos Airport",
-                        city: "Lagos",
-                        country: "Nigeria",
-                        type: "port",
-                      },
-                      message: "Shipment departed from Lagos Airport.",
-                      timestamp: "2024-06-01T20:00:00Z",
-                    },
-                    {
-                      shipment_status: "in-transit",
-                      shipment_location: {
-                        name: "Lagos Airport",
-                        city: "Lagos",
-                        country: "Nigeria",
-                        type: "port",
-                      },
-                      message: "Shipment arrived at Lagos Airport.",
-                      timestamp: "2024-06-01T15:30:00Z",
-                    },
-                    {
-                      shipment_status: "processing",
-                      shipment_location: {
-                        name: "Ikeja Hub",
-                        city: "Lagos",
-                        country: "Nigeria",
-                        type: "warehouse",
-                      },
-                      message: "Preparing shipment for delivery.",
-                      timestamp: "2024-06-01T08:00:00Z",
-                    },
                   ],
                 },
               },
@@ -293,6 +213,81 @@ const shipmentDocs = {
                               receiver_name: { type: "string" },
                               receiver_phone: { type: "string" },
                               receiver_email: { type: "string" },
+                              receiver_address: { type: ["string", "null"] },
+                              receiver_city: { type: "string" },
+                              receiver_country: { type: "string" },
+                              note: { type: ["string", "null"] },
+                              is_pickup: { type: "boolean" },
+                              size: { type: ["number", "null"] },
+                              metric: {
+                                type: "object",
+                                properties: {
+                                  id: { type: "number" },
+                                  documentId: { type: "string" },
+                                  name: { type: "string" },
+                                  unit: { type: "string" },
+                                  description: { type: ["string", "null"] },
+                                },
+                                required: [
+                                  "id",
+                                  "documentId",
+                                  "name",
+                                  "unit",
+                                  "description",
+                                ],
+                              },
+                              origin: {
+                                type: "object",
+                                properties: {
+                                  id: { type: "number" },
+                                  documentId: { type: "string" },
+                                  code: { type: "string" },
+                                  city: { type: "string" },
+                                  country: { type: "string" },
+                                },
+                                required: ["id", "documentId", "code", "city", "country"],
+                              },
+                              destination: {
+                                type: "object",
+                                properties: {
+                                  id: { type: "number" },
+                                  documentId: { type: "string" },
+                                  code: { type: "string" },
+                                  city: { type: "string" },
+                                  country: { type: "string" },
+                                },
+                                required: ["id", "documentId", "code", "city", "country"],
+                              },
+                              method: {
+                                type: "object",
+                                properties: {
+                                  id: { type: "number" },
+                                  code: { type: "string" },
+                                  name: { type: "string" },
+                                },
+                                required: ["id", "code", "name"],
+                              },
+                              pickup_center: {
+                                type: ["object", "null"],
+                                properties: {
+                                  id: { type: "number" },
+                                  documentId: { type: "string" },
+                                  name: { type: "string" },
+                                  code: { type: "string" },
+                                  city: { type: "string" },
+                                  country: { type: "string" },
+                                  type: { type: "string" },
+                                },
+                                required: [
+                                  "id",
+                                  "documentId",
+                                  "name",
+                                  "code",
+                                  "city",
+                                  "country",
+                                  "type",
+                                ],
+                              },
                               createdAt: {
                                 type: "string",
                                 format: "date-time",
@@ -301,17 +296,6 @@ const shipmentDocs = {
                                 type: "string",
                                 format: "date-time",
                               },
-                              publishedAt: {
-                                type: "string",
-                                format: "date-time",
-                              },
-                              locale: { type: ["string", "null"] },
-                              shipment_note: { type: ["string", "null"] },
-                              receiver_city: { type: "string" },
-                              receiver_country: { type: "string" },
-                              receiver_address: { type: ["string", "null"] },
-                              is_pickup: { type: "boolean" },
-                              shipment_size: { type: "number" },
                             },
                             required: [
                               "id",
@@ -320,16 +304,19 @@ const shipmentDocs = {
                               "receiver_name",
                               "receiver_phone",
                               "receiver_email",
-                              "createdAt",
-                              "updatedAt",
-                              "publishedAt",
-                              "locale",
-                              "shipment_note",
+                              "receiver_address",
                               "receiver_city",
                               "receiver_country",
-                              "receiver_address",
+                              "note",
                               "is_pickup",
-                              "shipment_size",
+                              "size",
+                              "metric",
+                              "origin",
+                              "destination",
+                              "method",
+                              "pickup_center",
+                              "createdAt",
+                              "updatedAt",
                             ],
                           },
                         },

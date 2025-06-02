@@ -15,13 +15,15 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::currency.currency",
-      "inversedBy": "exchange_rates"
+      "inversedBy": "exchange_rates_from",
+      "required": true
     },
     "to_currency": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::currency.currency",
-      "inversedBy": "exchange_rates"
+      "inversedBy": "exchange_rates_to",
+      "required": true
     },
     "rate": {
       "type": "decimal",

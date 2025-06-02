@@ -52,9 +52,9 @@ const freightRateDocs = {
             },
           },
           {
-            name: "size",
+            name: "metric",
             in: "query",
-            description: "Code of the freight measuring size.",
+            description: "Code of the freight measuring metric.",
             deprecated: false,
             required: false,
             schema: {
@@ -62,13 +62,13 @@ const freightRateDocs = {
             },
           },
           {
-            name: "value",
+            name: "size",
             in: "query",
-            description: "Value of the freight size with respect to the size.",
+            description: "Freight size with respect to the metric.",
             deprecated: false,
             required: false,
             schema: {
-              type: "number",
+              type: ["string", "number"],
             },
           },
         ],
@@ -109,7 +109,7 @@ const freightRateDocs = {
                           },
                           required: ["code", "name"],
                         },
-                        size: {
+                        metric: {
                           type: "object",
                           properties: {
                             code: { type: "string" },
@@ -128,7 +128,7 @@ const freightRateDocs = {
                       },
                       required: [
                         "method",
-                        "size",
+                        "metric",
                         "base_currency",
                         "destination_currency",
                         "exchange_rate",
@@ -137,7 +137,7 @@ const freightRateDocs = {
                         "estimated_days",
                       ],
                     },
-                    value: { type: "string" },
+                    size: { type: ["string", "number"] },
                     fee: {
                       type: "object",
                       properties: {
@@ -161,51 +161,10 @@ const freightRateDocs = {
                     "origin",
                     "destination",
                     "freight",
-                    "value",
+                    "size",
                     "fee",
                     "fee_converted",
                   ],
-                },
-                example: {
-                  origin: {
-                    code: "hong-kong-cn",
-                    city: "Hong Kong",
-                    country: "China",
-                  },
-                  destination: {
-                    code: "logos-ng",
-                    city: "Lagos",
-                    country: "Nigeria",
-                  },
-                  freight: {
-                    method: {
-                      code: "air",
-                      name: "Air",
-                    },
-                    size: {
-                      code: "weight",
-                      name: "Weight",
-                      unit: "kg",
-                      description: "",
-                    },
-                    base_currency: "USD",
-                    destination_currency: "NGN",
-                    exchange_rate: 1500,
-                    shipping_fee: 3,
-                    clearing_fee: 0.5,
-                    estimated_days: 7,
-                  },
-                  value: "10",
-                  fee: {
-                    shipping_fee: 30,
-                    clearing_fee: 5,
-                    total_fee: 35,
-                  },
-                  fee_converted: {
-                    shipping_fee: 45000,
-                    clearing_fee: 7500,
-                    total_fee: 52500,
-                  },
                 },
               },
             },

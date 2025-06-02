@@ -23,16 +23,22 @@
       "required": true,
       "unique": true
     },
-    "exchange_rates": {
+    "exchange_rates_to": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::exchange-rate.exchange-rate",
       "mappedBy": "to_currency"
     },
-    "shipping_destinations": {
+    "exchange_rates_from": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::shipping-destination.shipping-destination",
+      "target": "api::exchange-rate.exchange-rate",
+      "mappedBy": "from_currency"
+    },
+    "shipment_destinations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::shipment-destination.shipment-destination",
       "mappedBy": "currency"
     },
     "freight_rates": {

@@ -1,5 +1,5 @@
 import { type Event } from "@strapi/database/dist/lifecycles";
-import { getSetRelationId } from "../../../../utils/helpers";
+import { getConnectRelationId, getSetRelationId } from "../../../../utils/helpers";
 
 export default {
   async afterCreate(event: Event) {
@@ -8,8 +8,8 @@ export default {
     // Skip Draft & Publish secondary invocation
     if (data.publishedAt) return;
 
-    const [shipmentLocationId] = getSetRelationId(data.shipment_location);
-    const [shipmentId] = getSetRelationId(data.shipment);
+    const [shipmentLocationId] = getConnectRelationId(data.location);
+    const [shipmentId] = getConnectRelationId(data.shipment);
 
     if (!shipmentId) {
       strapi.log.error("Shipment relation missing in event.");

@@ -57,8 +57,8 @@ const notifyShipmentStatus = async (
 
   // Get current shipment location (if available)
   let currentLocationString = "";
-  if (shipment.current_location) {
-    const shipmentLocation = shipment.current_location;
+  if (shipment_event.location) {
+    const shipmentLocation = shipment_event.location;
     currentLocationString = [
       shipmentLocation.name,
       shipmentLocation.city,

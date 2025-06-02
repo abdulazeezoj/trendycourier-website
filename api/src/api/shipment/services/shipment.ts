@@ -11,11 +11,11 @@ export type TrackParams = {
 
 export type TrackResult = {
   tracking_code: string;
-  shipping_origin: {
+  origin: {
     city: string;
     country: string;
   };
-  shipping_destination: {
+  destination: {
     city: string;
     country: string;
   };
@@ -32,18 +32,17 @@ export type TrackResult = {
     name: string;
     city: string;
     country: string;
-    type: string;
   };
-  current_status: string;
-  current_location: {
+  progress: string;
+  location?: {
     name: string;
     city: string;
     country: string;
     type: string;
   };
   events: Array<{
-    shipment_status: string;
-    shipment_location: {
+    progress: string;
+    location: {
       name: string;
       city: string;
       country: string;
@@ -67,62 +66,67 @@ const track = async (
   const [shipment] = await strapi.documents("api::shipment.shipment").findMany({
     filters: { tracking_code: code },
     populate: {
-      shipping_origin: true,
-      shipping_destination: true,
-      current_location: true,
+      origin: true,
+      destination: true,
       pickup_center: true,
-      shipment_events: {
-        populate: { shipment_location: true },
+      events: {
+        populate: { location: true },
         sort: "updatedAt:desc",
       },
     },
     limit: 1,
+    status: "published",
   });
 
   if (!shipment) throw new errors.NotFoundError("Shipment not found");
 
+  const recentEvent = shipment.events?.[0];
+
   return {
     tracking_code: shipment.tracking_code,
-    shipping_origin: {
-      city: shipment.shipping_origin.city,
-      country: shipment.shipping_origin.country,
+    origin: {
+      city: shipment.origin.city,
+      country: shipment.origin.country,
     },
-    shipping_destination: {
-      city: shipment.shipping_destination.city,
-      country: shipment.shipping_destination.country,
+    destination: {
+      city: shipment.destination.city,
+      country: shipment.destination.country,
     },
     is_pickup: shipment.is_pickup,
     receiver: {
-      address: shipment.receiver_address,
+      address: shipment?.receiver_address,
       city: shipment.receiver_city,
       country: shipment.receiver_country,
       name: shipment.receiver_name,
       phone: shipment.receiver_phone,
-      email: shipment.receiver_email,
+      email: shipment?.receiver_email,
     },
-    pickup_center: shipment.pickup_center
+    pickup_center: shipment?.pickup_center
       ? {
           name: shipment.pickup_center.name,
           city: shipment.pickup_center.city,
           country: shipment.pickup_center.country,
-          type: shipment.pickup_center.type,
         }
       : null,
-    current_status: shipment.current_status,
-    current_location: {
-      name: shipment.current_location.name,
-      city: shipment.current_location.city,
-      country: shipment.current_location.country,
-      type: shipment.current_location.type,
-    },
-    events: (shipment.shipment_events || []).map((event: any) => ({
-      shipment_status: event.shipment_status,
-      shipment_location: {
-        name: event.shipment_location.name,
-        city: event.shipment_location.city,
-        country: event.shipment_location.country,
-        type: event.shipment_location.type,
-      },
+    progress: recentEvent?.progress || null,
+    location: recentEvent?.location
+      ? {
+          name: recentEvent.location.name,
+          city: recentEvent.location.city,
+          country: recentEvent.location.country,
+          type: recentEvent.location.type,
+        }
+      : null,
+    events: (shipment.events || []).map((event: any) => ({
+      progress: event.progress,
+      location: event?.location
+        ? {
+            name: event.location.name,
+            city: event.location.city,
+            country: event.location.country,
+            type: event.location.type,
+          }
+        : null,
       message: event.message,
       timestamp: event.updatedAt,
     })),
