@@ -1,6 +1,6 @@
 import { type Event } from "@strapi/database/dist/lifecycles";
 import { errors } from "@strapi/utils";
-import { getSetRelationId } from "../../../../utils/helpers";
+import { getConnectRelationId } from "../../../../utils/helpers";
 
 export default {
   async beforeCreate(event: Event) {
@@ -13,7 +13,7 @@ export default {
 
     // Delivery / Pickup Validation
     if (isPickup) {
-      const [pickupCenterId] = getSetRelationId(data.pickup_center);
+      const [pickupCenterId] = getConnectRelationId(data.pickup_center);
 
       if (!pickupCenterId) {
         strapi.log.error("Pickup center is required for pickup shipments.");
@@ -81,7 +81,7 @@ export default {
     // Skip second invocation (Draft & Publish)
     if (data.publishedAt) return;
 
-    const [pickupCenterId] = getSetRelationId(data.pickup_center);
+    const [pickupCenterId] = getConnectRelationId(data.pickup_center);
 
     const receiverPhone = data.receiver_phone;
     const receiverName = data.receiver_name;
