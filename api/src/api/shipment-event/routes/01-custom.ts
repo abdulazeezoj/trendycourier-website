@@ -60,7 +60,7 @@ const shipmentEventDocs = {
                             properties: {
                               id: { type: "number" },
                               documentId: { type: "string" },
-                              shipment_status: { type: "string" },
+                              progress: { type: "string" },
                               message: { type: ["string", "null"] },
                               shipment: {
                                 type: "object",
@@ -71,7 +71,7 @@ const shipmentEventDocs = {
                                 },
                                 required: ["id", "documentId", "tracking_code"],
                               },
-                              shipment_location: {
+                              location: {
                                 type: "object",
                                 properties: {
                                   id: { type: "number" },
@@ -104,10 +104,10 @@ const shipmentEventDocs = {
                             required: [
                               "id",
                               "documentId",
-                              "shipment_status",
+                              "progress",
                               "message",
                               "shipment",
-                              "shipment_location",
+                              "location",
                               "createdAt",
                               "updatedAt",
                             ],

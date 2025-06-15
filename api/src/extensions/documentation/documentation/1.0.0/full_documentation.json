@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-06-15T20:42:49.539Z"
+    "x-generation-date": "2025-06-15T20:52:58.262Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -7455,7 +7455,7 @@
                               "documentId": {
                                 "type": "string"
                               },
-                              "shipment_status": {
+                              "progress": {
                                 "type": "string"
                               },
                               "message": {
@@ -7483,7 +7483,7 @@
                                   "tracking_code"
                                 ]
                               },
-                              "shipment_location": {
+                              "location": {
                                 "type": "object",
                                 "properties": {
                                   "id": {
@@ -7530,7 +7530,7 @@
                             "required": [
                               "id",
                               "documentId",
-                              "shipment_status",
+                              "progress",
                               "message",
                               "shipment",
                               "shipment_location",
