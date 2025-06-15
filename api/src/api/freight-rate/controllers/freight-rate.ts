@@ -5,10 +5,7 @@
 import { factories } from "@strapi/strapi";
 import { errors } from "@strapi/utils";
 import { Context } from "koa";
-import {
-  FreightEstimateParams,
-  FreightEstimateResult,
-} from "../services/freight-rate";
+import { EstimateParams, EstimateResult } from "../services/freight-rate";
 
 export default factories.createCoreController(
   "api::freight-rate.freight-rate",
@@ -17,9 +14,9 @@ export default factories.createCoreController(
       const { from, to, method, metric, size } = ctx.query;
 
       try {
-        const result: FreightEstimateResult = await strapi
+        const result: EstimateResult = await strapi
           .service("api::freight-rate.freight-rate")
-          .estimate({ from, to, method, metric, size } as FreightEstimateParams);
+          .estimate({ from, to, method, metric, size } as EstimateParams);
 
         ctx.body = result;
         ctx.status = 200;

@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2025-06-02T15:41:13.867Z"
+    "x-generation-date": "2025-06-15T20:42:49.539Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -6512,7 +6512,7 @@
             "in": "query",
             "description": "Code of the shipping method.",
             "deprecated": false,
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -6522,7 +6522,7 @@
             "in": "query",
             "description": "Code of the origin location.",
             "deprecated": false,
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -6532,7 +6532,7 @@
             "in": "query",
             "description": "Code of the destination location.",
             "deprecated": false,
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -6542,7 +6542,7 @@
             "in": "query",
             "description": "Code of the freight measuring metric.",
             "deprecated": false,
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -6552,12 +6552,9 @@
             "in": "query",
             "description": "Freight size with respect to the metric.",
             "deprecated": false,
-            "required": false,
+            "required": true,
             "schema": {
-              "type": [
-                "string",
-                "number"
-              ]
+              "type": "number"
             }
           }
         ],
@@ -8323,13 +8320,22 @@
                                               "unit": {
                                                 "type": "string"
                                               },
+                                              "min": {
+                                                "type": "number",
+                                                "format": "float"
+                                              },
+                                              "max": {
+                                                "type": "number",
+                                                "format": "float"
+                                              },
+                                              "multiple": {
+                                                "type": "number",
+                                                "format": "float"
+                                              },
                                               "code": {
                                                 "type": "string"
                                               },
                                               "description": {
-                                                "type": "string"
-                                              },
-                                              "comment": {
                                                 "type": "string"
                                               },
                                               "freight_rates": {
@@ -8482,11 +8488,9 @@
                                                     "type": {
                                                       "type": "string",
                                                       "enum": [
-                                                        "Border",
                                                         "Port",
                                                         "Warehouse",
-                                                        "Office",
-                                                        "Delivery"
+                                                        "Office"
                                                       ]
                                                     },
                                                     "shipment_events": {
@@ -8782,9 +8786,6 @@
                                 "clearing_fee": {
                                   "type": "number",
                                   "format": "float"
-                                },
-                                "per_unit": {
-                                  "type": "boolean"
                                 },
                                 "estimated_days": {
                                   "type": "integer"
@@ -9898,13 +9899,22 @@
                                         "unit": {
                                           "type": "string"
                                         },
+                                        "min": {
+                                          "type": "number",
+                                          "format": "float"
+                                        },
+                                        "max": {
+                                          "type": "number",
+                                          "format": "float"
+                                        },
+                                        "multiple": {
+                                          "type": "number",
+                                          "format": "float"
+                                        },
                                         "code": {
                                           "type": "string"
                                         },
                                         "description": {
-                                          "type": "string"
-                                        },
-                                        "comment": {
                                           "type": "string"
                                         },
                                         "freight_rates": {
@@ -10057,11 +10067,9 @@
                                               "type": {
                                                 "type": "string",
                                                 "enum": [
-                                                  "Border",
                                                   "Port",
                                                   "Warehouse",
-                                                  "Office",
-                                                  "Delivery"
+                                                  "Office"
                                                 ]
                                               },
                                               "shipment_events": {
@@ -10357,9 +10365,6 @@
                           "clearing_fee": {
                             "type": "number",
                             "format": "float"
-                          },
-                          "per_unit": {
-                            "type": "boolean"
                           },
                           "estimated_days": {
                             "type": "integer"
@@ -10663,7 +10668,6 @@
               "shipment_method",
               "shipment_metric",
               "shipping_fee",
-              "per_unit",
               "currency"
             ],
             "type": "object",
@@ -10725,9 +10729,6 @@
               "clearing_fee": {
                 "type": "number",
                 "format": "float"
-              },
-              "per_unit": {
-                "type": "boolean"
               },
               "estimated_days": {
                 "type": "integer"
@@ -10811,7 +10812,6 @@
           "shipment_method",
           "shipment_metric",
           "shipping_fee",
-          "per_unit",
           "currency"
         ],
         "properties": {
@@ -11527,13 +11527,22 @@
                                   "unit": {
                                     "type": "string"
                                   },
+                                  "min": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
+                                  "max": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
+                                  "multiple": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
                                   "code": {
                                     "type": "string"
                                   },
                                   "description": {
-                                    "type": "string"
-                                  },
-                                  "comment": {
                                     "type": "string"
                                   },
                                   "freight_rates": {
@@ -11686,11 +11695,9 @@
                                         "type": {
                                           "type": "string",
                                           "enum": [
-                                            "Border",
                                             "Port",
                                             "Warehouse",
-                                            "Office",
-                                            "Delivery"
+                                            "Office"
                                           ]
                                         },
                                         "shipment_events": {
@@ -11976,9 +11983,6 @@
                       "type": "number",
                       "format": "float"
                     },
-                    "per_unit": {
-                      "type": "boolean"
-                    },
                     "estimated_days": {
                       "type": "integer"
                     },
@@ -12158,9 +12162,6 @@
             "type": "number",
             "format": "float"
           },
-          "per_unit": {
-            "type": "boolean"
-          },
           "estimated_days": {
             "type": "integer"
           },
@@ -12258,7 +12259,8 @@
               "origin",
               "destination",
               "method",
-              "metric"
+              "metric",
+              "size"
             ],
             "type": "object",
             "properties": {
@@ -12430,7 +12432,8 @@
           "origin",
           "destination",
           "method",
-          "metric"
+          "metric",
+          "size"
         ],
         "properties": {
           "id": {
@@ -13164,13 +13167,22 @@
                                   "unit": {
                                     "type": "string"
                                   },
+                                  "min": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
+                                  "max": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
+                                  "multiple": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
                                   "code": {
                                     "type": "string"
                                   },
                                   "description": {
-                                    "type": "string"
-                                  },
-                                  "comment": {
                                     "type": "string"
                                   },
                                   "freight_rates": {
@@ -13323,11 +13335,9 @@
                                         "type": {
                                           "type": "string",
                                           "enum": [
-                                            "Border",
                                             "Port",
                                             "Warehouse",
-                                            "Office",
-                                            "Delivery"
+                                            "Office"
                                           ]
                                         },
                                         "shipment_events": {
@@ -13612,9 +13622,6 @@
                     "clearing_fee": {
                       "type": "number",
                       "format": "float"
-                    },
-                    "per_unit": {
-                      "type": "boolean"
                     },
                     "estimated_days": {
                       "type": "integer"
@@ -14639,13 +14646,22 @@
                                         "unit": {
                                           "type": "string"
                                         },
+                                        "min": {
+                                          "type": "number",
+                                          "format": "float"
+                                        },
+                                        "max": {
+                                          "type": "number",
+                                          "format": "float"
+                                        },
+                                        "multiple": {
+                                          "type": "number",
+                                          "format": "float"
+                                        },
                                         "code": {
                                           "type": "string"
                                         },
                                         "description": {
-                                          "type": "string"
-                                        },
-                                        "comment": {
                                           "type": "string"
                                         },
                                         "freight_rates": {
@@ -14798,11 +14814,9 @@
                                               "type": {
                                                 "type": "string",
                                                 "enum": [
-                                                  "Border",
                                                   "Port",
                                                   "Warehouse",
-                                                  "Office",
-                                                  "Delivery"
+                                                  "Office"
                                                 ]
                                               },
                                               "shipment_events": {
@@ -15098,9 +15112,6 @@
                           "clearing_fee": {
                             "type": "number",
                             "format": "float"
-                          },
-                          "per_unit": {
-                            "type": "boolean"
                           },
                           "estimated_days": {
                             "type": "integer"
@@ -16271,13 +16282,22 @@
                             "unit": {
                               "type": "string"
                             },
+                            "min": {
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "max": {
+                              "type": "number",
+                              "format": "float"
+                            },
+                            "multiple": {
+                              "type": "number",
+                              "format": "float"
+                            },
                             "code": {
                               "type": "string"
                             },
                             "description": {
-                              "type": "string"
-                            },
-                            "comment": {
                               "type": "string"
                             },
                             "freight_rates": {
@@ -16368,9 +16388,6 @@
                         "clearing_fee": {
                           "type": "number",
                           "format": "float"
-                        },
-                        "per_unit": {
-                          "type": "boolean"
                         },
                         "estimated_days": {
                           "type": "integer"
@@ -16612,11 +16629,9 @@
                         "type": {
                           "type": "string",
                           "enum": [
-                            "Border",
                             "Port",
                             "Warehouse",
-                            "Office",
-                            "Delivery"
+                            "Office"
                           ]
                         },
                         "shipment_events": {
@@ -16918,7 +16933,6 @@
           "data": {
             "required": [
               "name",
-              "code",
               "city",
               "country",
               "type"
@@ -16940,11 +16954,9 @@
               "type": {
                 "type": "string",
                 "enum": [
-                  "Border",
                   "Port",
                   "Warehouse",
-                  "Office",
-                  "Delivery"
+                  "Office"
                 ]
               },
               "shipment_events": {
@@ -17035,7 +17047,6 @@
         "type": "object",
         "required": [
           "name",
-          "code",
           "city",
           "country",
           "type"
@@ -17062,11 +17073,9 @@
           "type": {
             "type": "string",
             "enum": [
-              "Border",
               "Port",
               "Warehouse",
-              "Office",
-              "Delivery"
+              "Office"
             ]
           },
           "shipment_events": {
@@ -17823,13 +17832,22 @@
                                   "unit": {
                                     "type": "string"
                                   },
+                                  "min": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
+                                  "max": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
+                                  "multiple": {
+                                    "type": "number",
+                                    "format": "float"
+                                  },
                                   "code": {
                                     "type": "string"
                                   },
                                   "description": {
-                                    "type": "string"
-                                  },
-                                  "comment": {
                                     "type": "string"
                                   },
                                   "freight_rates": {
@@ -17920,9 +17938,6 @@
                               "clearing_fee": {
                                 "type": "number",
                                 "format": "float"
-                              },
-                              "per_unit": {
-                                "type": "boolean"
                               },
                               "estimated_days": {
                                 "type": "integer"
@@ -18140,11 +18155,9 @@
                         "type": {
                           "type": "string",
                           "enum": [
-                            "Border",
                             "Port",
                             "Warehouse",
-                            "Office",
-                            "Delivery"
+                            "Office"
                           ]
                         },
                         "shipment_events": {
@@ -19316,13 +19329,22 @@
                               "unit": {
                                 "type": "string"
                               },
+                              "min": {
+                                "type": "number",
+                                "format": "float"
+                              },
+                              "max": {
+                                "type": "number",
+                                "format": "float"
+                              },
+                              "multiple": {
+                                "type": "number",
+                                "format": "float"
+                              },
                               "code": {
                                 "type": "string"
                               },
                               "description": {
-                                "type": "string"
-                              },
-                              "comment": {
                                 "type": "string"
                               },
                               "freight_rates": {
@@ -19475,11 +19497,9 @@
                                     "type": {
                                       "type": "string",
                                       "enum": [
-                                        "Border",
                                         "Port",
                                         "Warehouse",
-                                        "Office",
-                                        "Delivery"
+                                        "Office"
                                       ]
                                     },
                                     "shipment_events": {
@@ -19776,9 +19796,6 @@
                   "type": "number",
                   "format": "float"
                 },
-                "per_unit": {
-                  "type": "boolean"
-                },
                 "estimated_days": {
                   "type": "integer"
                 },
@@ -19941,7 +19958,9 @@
             "required": [
               "name",
               "unit",
-              "code"
+              "min",
+              "max",
+              "multiple"
             ],
             "type": "object",
             "properties": {
@@ -19951,13 +19970,22 @@
               "unit": {
                 "type": "string"
               },
+              "min": {
+                "type": "number",
+                "format": "float"
+              },
+              "max": {
+                "type": "number",
+                "format": "float"
+              },
+              "multiple": {
+                "type": "number",
+                "format": "float"
+              },
               "code": {
                 "type": "string"
               },
               "description": {
-                "type": "string"
-              },
-              "comment": {
                 "type": "string"
               },
               "freight_rates": {
@@ -20049,7 +20077,9 @@
         "required": [
           "name",
           "unit",
-          "code"
+          "min",
+          "max",
+          "multiple"
         ],
         "properties": {
           "id": {
@@ -20064,13 +20094,22 @@
           "unit": {
             "type": "string"
           },
+          "min": {
+            "type": "number",
+            "format": "float"
+          },
+          "max": {
+            "type": "number",
+            "format": "float"
+          },
+          "multiple": {
+            "type": "number",
+            "format": "float"
+          },
           "code": {
             "type": "string"
           },
           "description": {
-            "type": "string"
-          },
-          "comment": {
             "type": "string"
           },
           "freight_rates": {
@@ -20832,13 +20871,22 @@
                               "unit": {
                                 "type": "string"
                               },
+                              "min": {
+                                "type": "number",
+                                "format": "float"
+                              },
+                              "max": {
+                                "type": "number",
+                                "format": "float"
+                              },
+                              "multiple": {
+                                "type": "number",
+                                "format": "float"
+                              },
                               "code": {
                                 "type": "string"
                               },
                               "description": {
-                                "type": "string"
-                              },
-                              "comment": {
                                 "type": "string"
                               },
                               "freight_rates": {
@@ -20991,11 +21039,9 @@
                                     "type": {
                                       "type": "string",
                                       "enum": [
-                                        "Border",
                                         "Port",
                                         "Warehouse",
-                                        "Office",
-                                        "Delivery"
+                                        "Office"
                                       ]
                                     },
                                     "shipment_events": {
@@ -21291,9 +21337,6 @@
                 "clearing_fee": {
                   "type": "number",
                   "format": "float"
-                },
-                "per_unit": {
-                  "type": "boolean"
                 },
                 "estimated_days": {
                   "type": "integer"
@@ -22331,13 +22374,22 @@
                               "unit": {
                                 "type": "string"
                               },
+                              "min": {
+                                "type": "number",
+                                "format": "float"
+                              },
+                              "max": {
+                                "type": "number",
+                                "format": "float"
+                              },
+                              "multiple": {
+                                "type": "number",
+                                "format": "float"
+                              },
                               "code": {
                                 "type": "string"
                               },
                               "description": {
-                                "type": "string"
-                              },
-                              "comment": {
                                 "type": "string"
                               },
                               "freight_rates": {
@@ -22490,11 +22542,9 @@
                                     "type": {
                                       "type": "string",
                                       "enum": [
-                                        "Border",
                                         "Port",
                                         "Warehouse",
-                                        "Office",
-                                        "Delivery"
+                                        "Office"
                                       ]
                                     },
                                     "shipment_events": {
@@ -22790,9 +22840,6 @@
                 "clearing_fee": {
                   "type": "number",
                   "format": "float"
-                },
-                "per_unit": {
-                  "type": "boolean"
                 },
                 "estimated_days": {
                   "type": "integer"

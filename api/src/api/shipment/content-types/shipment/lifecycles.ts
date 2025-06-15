@@ -14,6 +14,9 @@ export default {
     // Delivery / Pickup Validation
     if (isPickup) {
       const [pickupCenterId] = getConnectRelationId(data.pickup_center);
+      const [shipmentDestinationId] = getConnectRelationId(
+        data.shipment_destination
+      );
 
       if (!pickupCenterId) {
         strapi.log.error("Pickup center is required for pickup shipments.");
@@ -21,19 +24,43 @@ export default {
           "Pickup center is required for pickup shipments."
         );
       }
+      if (!shipmentDestinationId) {
+        strapi.log.error(
+          "Shipment destination is required for pickup shipments."
+        );
+        throw new errors.ValidationError(
+          "Shipment destination is required for pickup shipments."
+        );
+      }
 
       const pickupCenter = await strapi
         .documents("api::shipment-location.shipment-location")
         .findFirst({ filters: { id: pickupCenterId } });
+      const shipmentDestination = await strapi
+        .documents("api::shipment-destination.shipment-destination")
+        .findFirst({ filters: { id: shipmentDestinationId } });
 
       if (!pickupCenter) {
         strapi.log.error("Pickup center not found.");
         throw new errors.NotFoundError("Pickup center not found.");
       }
-      if (pickupCenter.type.toLowerCase() !== "delivery") {
-        strapi.log.error("Pickup center must be of type 'delivery'.");
+      if (!shipmentDestination) {
+        strapi.log.error("Shipment destination not found.");
+        throw new errors.NotFoundError("Shipment destination not found.");
+      }
+
+      // Ensure pickup center is at shipment destination
+      if (
+        pickupCenter.city?.toLowerCase() !==
+          shipmentDestination.city?.toLowerCase() ||
+        pickupCenter.country?.toLowerCase() !==
+          shipmentDestination.country?.toLowerCase()
+      ) {
+        strapi.log.error(
+          "Pickup center must be located at the shipment destination city and country."
+        );
         throw new errors.ValidationError(
-          "Pickup center must be of type 'delivery'."
+          "Pickup center must be located at the shipment destination city and country."
         );
       }
     } else {

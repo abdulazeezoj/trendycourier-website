@@ -13,12 +13,12 @@
   "attributes": {
     "name": {
       "type": "string",
+      "unique": true,
       "required": true
     },
     "code": {
-      "type": "uid",
-      "targetField": "name",
-      "required": true
+      "type": "string",
+      "unique": true
     },
     "city": {
       "type": "string",
@@ -30,7 +30,11 @@
     },
     "type": {
       "type": "enumeration",
-      "enum": ["Border", "Port", "Warehouse", "Office", "Delivery"],
+      "enum": [
+        "Port",
+        "Warehouse",
+        "Office"
+      ],
       "required": true
     },
     "shipment_events": {

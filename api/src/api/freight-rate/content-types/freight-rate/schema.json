@@ -55,11 +55,6 @@
     "clearing_fee": {
       "type": "decimal"
     },
-    "per_unit": {
-      "type": "boolean",
-      "default": false,
-      "required": true
-    },
     "estimated_days": {
       "type": "integer"
     },

@@ -19,14 +19,35 @@
       "type": "string",
       "required": true
     },
+    "min": {
+      "type": "decimal",
+      "required": true,
+      "column": {
+        "type": "decimal",
+        "args": [10, 5]
+      }
+    },
+    "max": {
+      "type": "decimal",
+      "required": true,
+      "column": {
+        "type": "decimal",
+        "args": [10, 5]
+      }
+    },
+    "multiple": {
+      "type": "decimal",
+      "required": true,
+      "column": {
+        "type": "decimal",
+        "args": [10, 5]
+      }
+    },
     "code": {
       "type": "string",
-      "required": true
+      "unique": true
     },
     "description": {
-      "type": "text"
-    },
-    "comment": {
       "type": "text"
     },
     "freight_rates": {

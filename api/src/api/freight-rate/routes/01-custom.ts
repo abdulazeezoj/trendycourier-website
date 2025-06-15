@@ -26,7 +26,7 @@ const freightRateDocs = {
             in: "query",
             description: "Code of the shipping method.",
             deprecated: false,
-            required: false,
+            required: true,
             schema: {
               type: "string",
             },
@@ -36,7 +36,7 @@ const freightRateDocs = {
             in: "query",
             description: "Code of the origin location.",
             deprecated: false,
-            required: false,
+            required: true,
             schema: {
               type: "string",
             },
@@ -46,7 +46,7 @@ const freightRateDocs = {
             in: "query",
             description: "Code of the destination location.",
             deprecated: false,
-            required: false,
+            required: true,
             schema: {
               type: "string",
             },
@@ -56,7 +56,7 @@ const freightRateDocs = {
             in: "query",
             description: "Code of the freight measuring metric.",
             deprecated: false,
-            required: false,
+            required: true,
             schema: {
               type: "string",
             },
@@ -66,9 +66,9 @@ const freightRateDocs = {
             in: "query",
             description: "Freight size with respect to the metric.",
             deprecated: false,
-            required: false,
+            required: true,
             schema: {
-              type: ["string", "number"],
+              type: "number",
             },
           },
         ],

@@ -70,7 +70,15 @@
       "required": true
     },
     "size": {
-      "type": "decimal"
+      "type": "decimal",
+      "column": {
+        "type": "decimal",
+        "args": [
+          10,
+          5
+        ]
+      },
+      "required": true
     },
     "note": {
       "type": "text"

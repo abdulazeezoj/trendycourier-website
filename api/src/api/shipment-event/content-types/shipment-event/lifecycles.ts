@@ -41,15 +41,15 @@ export default {
           limit: 1,
         });
 
-      if (location) {
-        shipmentLocation = location;
-      }
-
       // If location not found, log warning but continue
-      if (!location && data.shipment_status !== "Delivered") {
+      if (!location && data.progress !== "Delivered") {
         strapi.log.warn(
           "Shipment location not found, but not required for this status."
         );
+      }
+
+      if (location) {
+        shipmentLocation = location;
       }
     }
 
@@ -58,7 +58,10 @@ export default {
       .service("api::shipment-event.shipment-event")
       .notifyShipmentStatus({
         shipment: shipment,
-        shipment_event: data,
+        shipment_event: {
+          ...data,
+          location: shipmentLocation || null,
+        },
       });
   },
 };

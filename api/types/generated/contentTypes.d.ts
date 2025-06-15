@@ -497,9 +497,6 @@ export interface ApiFreightRateFreightRate extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
-    per_unit: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<false>;
     publishedAt: Schema.Attribute.DateTime;
     shipment_destination: Schema.Attribute.Relation<
       'manyToOne',
@@ -631,7 +628,7 @@ export interface ApiShipmentLocationShipmentLocation
   };
   attributes: {
     city: Schema.Attribute.String & Schema.Attribute.Required;
-    code: Schema.Attribute.UID<'name'> & Schema.Attribute.Required;
+    code: Schema.Attribute.String & Schema.Attribute.Unique;
     country: Schema.Attribute.String & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -642,16 +639,16 @@ export interface ApiShipmentLocationShipmentLocation
       'api::shipment-location.shipment-location'
     > &
       Schema.Attribute.Private;
-    name: Schema.Attribute.String & Schema.Attribute.Required;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
     shipment_events: Schema.Attribute.Relation<
       'oneToMany',
       'api::shipment-event.shipment-event'
     >;
     shipments: Schema.Attribute.Relation<'oneToMany', 'api::shipment.shipment'>;
-    type: Schema.Attribute.Enumeration<
-      ['Border', 'Port', 'Warehouse', 'Office', 'Delivery']
-    > &
+    type: Schema.Attribute.Enumeration<['Port', 'Warehouse', 'Office']> &
       Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -672,7 +669,7 @@ export interface ApiShipmentMethodShipmentMethod
     draftAndPublish: true;
   };
   attributes: {
-    code: Schema.Attribute.UID<'name'>;
+    code: Schema.Attribute.String & Schema.Attribute.Unique;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -710,8 +707,7 @@ export interface ApiShipmentMetricShipmentMetric
     draftAndPublish: true;
   };
   attributes: {
-    code: Schema.Attribute.String & Schema.Attribute.Required;
-    comment: Schema.Attribute.Text;
+    code: Schema.Attribute.String & Schema.Attribute.Unique;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -726,6 +722,9 @@ export interface ApiShipmentMetricShipmentMetric
       'api::shipment-metric.shipment-metric'
     > &
       Schema.Attribute.Private;
+    max: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    min: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    multiple: Schema.Attribute.Decimal & Schema.Attribute.Required;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     shipments: Schema.Attribute.Relation<'oneToMany', 'api::shipment.shipment'>;
@@ -833,7 +832,7 @@ export interface ApiShipmentShipment extends Struct.CollectionTypeSchema {
     receiver_email: Schema.Attribute.Email;
     receiver_name: Schema.Attribute.String & Schema.Attribute.Required;
     receiver_phone: Schema.Attribute.String & Schema.Attribute.Required;
-    size: Schema.Attribute.Decimal;
+    size: Schema.Attribute.Decimal & Schema.Attribute.Required;
     tracking_code: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

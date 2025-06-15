@@ -29,8 +29,29 @@ Your shipment status has been updated:
 <p>Tracking Code: <strong>{{trackingCode}}</strong></p>`;
 
 export type NotifyShipmentStatusParams = {
-  shipment: any;
-  shipment_event: any;
+  shipment: {
+    id: number;
+    receiver_name: string;
+    receiver_phone: string;
+    receiver_email: string;
+    receiver_address: string;
+    is_pickup: boolean;
+    tracking_code: string;
+    pickup_center?: {
+      name?: string;
+      city?: string;
+      country?: string;
+    };
+  };
+  shipment_event: {
+    progress: string;
+    message: string;
+    location?: {
+      name?: string;
+      city?: string;
+      country?: string;
+    };
+  };
 };
 
 const notifyShipmentStatus = async (
@@ -81,7 +102,7 @@ const notifyShipmentStatus = async (
 
   smsData = {
     name: receiverName,
-    status: shipment_event.shipment_status,
+    status: shipment_event.progress,
     location: currentLocationString,
     message: shipment_event.message,
     deliveryType,
@@ -107,7 +128,7 @@ const notifyShipmentStatus = async (
   // Send Email
   if (receiverEmail) {
     try {
-      const emailSubject = `Shipment Update: ${shipment_event.shipment_status}`;
+      const emailSubject = `Shipment Update: ${shipment_event.progress}`;
       await notificationService.sendEmail(
         receiverEmail,
         receiverName,

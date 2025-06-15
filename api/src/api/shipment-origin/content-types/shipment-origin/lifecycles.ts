@@ -3,7 +3,7 @@ import { errors } from "@strapi/utils";
 import { toSlug } from "../../../../utils/helpers";
 
 function getExpectedCode(city: string, country: string): string {
-  return toSlug(`${city}-${country}`);
+  return toSlug(`${city} ${country}`);
 }
 
 export default {

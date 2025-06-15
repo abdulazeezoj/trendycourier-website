@@ -1,3 +1,5 @@
+import { UID } from "@strapi/types";
+
 interface RelationInput {
   connect?: { id: string }[];
   set?: { id: string }[];
@@ -54,5 +56,48 @@ function toSlug(str: string, lower: boolean = true): string {
     .replace(/-+/g, "-"); // Replace multiple hyphens with a single hyphen
 }
 
-export { getConnectRelationId, getSetRelationId, toSlug, toTitleCase };
+/**
+ * Fetches the code or name of an entity based on its ID.
+ *
+ * @param model - The content type model to query.
+ * @param id - The ID of the entity to fetch.
+ * @param codeField - The field to return as code (default is "code").
+ * @param nameField - The field to return as name (default is "name").
+ * @returns Promise<string | null> - The code or name of the entity, or null if not found.
+ */
+async function getEntityCode(
+  model: UID.ContentType,
+  id: any,
+  codeField = "code",
+  nameField = "name"
+): Promise<string | null> {
+  if (!id) return null;
+
+  const entity = await strapi.documents(model).findFirst({
+    filters: {
+      id: id,
+    },
+  });
+
+  return entity?.[codeField] || entity?.[nameField] || null;
+}
+
+function isRelationChanged(field: string, data: Record<string, any>): boolean {
+  const rel = data[field];
+
+  return (
+    rel &&
+    ((Array.isArray(rel.connect) && rel.connect.length > 0) ||
+      (Array.isArray(rel.disconnect) && rel.disconnect.length > 0))
+  );
+}
+
+export {
+  getConnectRelationId,
+  getEntityCode,
+  getSetRelationId,
+  isRelationChanged,
+  toSlug,
+  toTitleCase,
+};
 export type { RelationInput };

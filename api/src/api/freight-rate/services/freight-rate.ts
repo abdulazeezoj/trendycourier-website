@@ -6,7 +6,7 @@ import { factories } from "@strapi/strapi";
 import { errors } from "@strapi/utils";
 import { ExchangeRateConvertResult } from "../../exchange-rate/services/exchange-rate";
 
-export type FreightEstimateParams = {
+export type EstimateParams = {
   from: string;
   to: string;
   method: string;
@@ -14,7 +14,7 @@ export type FreightEstimateParams = {
   size?: string | number;
 };
 
-export type FreightEstimateResult = {
+export type EstimateResult = {
   origin: {
     code: string;
     city: string;
@@ -58,11 +58,11 @@ export type FreightEstimateResult = {
 
 const estimate = async (
   strapi: any,
-  params: FreightEstimateParams
-): Promise<FreightEstimateResult> => {
+  params: EstimateParams
+): Promise<EstimateResult> => {
   const { from, to, method, metric, size } = params;
 
-  if (!from || !to || !method || !metric) {
+  if (!from || !to || !method || !metric || !size) {
     throw new errors.ValidationError("Missing required parameters");
   }
 
@@ -80,7 +80,8 @@ const estimate = async (
       populate: ["currency"],
       limit: 1,
     });
-  if (!shipmeDestination) throw new errors.NotFoundError("Destination not found");
+  if (!shipmeDestination)
+    throw new errors.NotFoundError("Destination not found");
   if (!shipmeDestination.currency)
     throw new errors.NotFoundError("Destination currency not found");
 
@@ -88,13 +89,55 @@ const estimate = async (
   const [shipmentMethod] = await strapi
     .documents("api::shipment-method.shipment-method")
     .findMany({ filters: { code: method }, limit: 1 });
-  if (!shipmentMethod) throw new errors.NotFoundError("Shipping method not found");
+  if (!shipmentMethod)
+    throw new errors.NotFoundError("Shipping method not found");
 
-  // 4. Fetch size
+  // 4. Fetch metric
   const [shipmentMetric] = await strapi
     .documents("api::shipment-metric.shipment-metric")
     .findMany({ filters: { code: metric }, limit: 1 });
-  if (!shipmentMetric) throw new errors.NotFoundError("Shipping size not found");
+  if (!shipmentMetric)
+    throw new errors.NotFoundError("Shipping size not found");
+
+  // Validate size against metric constraints
+  const parsed = Number(size);
+  const min =
+    shipmentMetric.min !== undefined && shipmentMetric.min !== null
+      ? Number(shipmentMetric.min)
+      : undefined;
+  const max =
+    shipmentMetric.max !== undefined && shipmentMetric.max !== null
+      ? Number(shipmentMetric.max)
+      : undefined;
+  const multiple =
+    shipmentMetric.multiple !== undefined && shipmentMetric.multiple !== null
+      ? Number(shipmentMetric.multiple)
+      : undefined;
+
+  if (isNaN(parsed) || parsed <= 0) {
+    throw new errors.ValidationError(
+      "Invalid or missing numeric value for size"
+    );
+  }
+  if (min !== undefined && parsed < min) {
+    throw new errors.ValidationError(
+      `Size must be at least ${min} ${shipmentMetric.unit}`
+    );
+  }
+  if (max !== undefined && parsed > max) {
+    throw new errors.ValidationError(
+      `Size must not exceed ${max} ${shipmentMetric.unit}`
+    );
+  }
+  if (
+    multiple !== undefined &&
+    Math.abs((parsed - (min ?? 0)) % multiple) > 1e-8 &&
+    Math.abs(multiple - ((parsed - (min ?? 0)) % multiple)) > 1e-8
+  ) {
+    throw new errors.ValidationError(
+      `Size must be in multiples of ${multiple} ${shipmentMetric.unit}`
+    );
+  }
 
   // 5. Fetch freight rate
   const [freightRate] = await strapi
@@ -115,8 +158,9 @@ const estimate = async (
       },
       sort: "createdAt:desc",
       limit: 1,
-      status: "published",
+      // status: "published",
     });
+
   if (!freightRate) throw new errors.NotFoundError("Freight rate not found");
   if (!freightRate.currency)
     throw new errors.NotFoundError("Freight rate currency not found");
@@ -126,29 +170,9 @@ const estimate = async (
   let conversionRate = 1;
   const shippingFee = freightRate.shipping_fee || 0;
   const clearingFee = freightRate.clearing_fee || 0;
-  let totalShippingFee = 0;
-  let totalClearingFee = 0;
-
-  if (freightRate.per_unit) {
-    if (size === undefined || size === null || size === "") {
-      throw new errors.ValidationError(
-        "Missing required value for per-unit mode"
-      );
-    }
-    const parsed = Number(size);
-    if (isNaN(parsed) || parsed <= 0) {
-      throw new errors.ValidationError(
-        "Invalid or missing numeric value for per-unit mode"
-      );
-    }
-    totalShippingFee = shippingFee * parsed;
-    totalClearingFee = clearingFee * parsed;
-    total = totalShippingFee + totalClearingFee;
-  } else {
-    totalShippingFee = shippingFee;
-    totalClearingFee = clearingFee;
-    total = shippingFee + clearingFee;
-  }
+  let totalShippingFee = shippingFee * parsed;
+  let totalClearingFee = clearingFee * parsed;
+  total = totalShippingFee + totalClearingFee;
 
   // 7. Currency conversion
   const sourceCurrency = freightRate.currency.code;
@@ -197,7 +221,7 @@ const estimate = async (
       clearing_fee: clearingFee,
       estimated_days: freightRate?.estimated_days || null,
     },
-    size,
+    size: parsed,
     fee: {
       shipping_fee: totalShippingFee,
       clearing_fee: totalClearingFee,
@@ -214,6 +238,6 @@ const estimate = async (
 export default factories.createCoreService(
   "api::freight-rate.freight-rate",
   ({ strapi }) => ({
-    estimate: (params: FreightEstimateParams) => estimate(strapi, params),
+    estimate: (params: EstimateParams) => estimate(strapi, params),
   })
 );

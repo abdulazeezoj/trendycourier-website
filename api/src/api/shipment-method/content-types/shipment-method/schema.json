@@ -23,8 +23,8 @@
       "mappedBy": "shipment_method"
     },
     "code": {
-      "type": "uid",
-      "targetField": "name"
+      "type": "string",
+      "unique": true
     },
     "shipments": {
       "type": "relation",
